@@ -10,10 +10,17 @@ public class PlayerMove : MonoBehaviour
     public float WalkSpeed;
     public float RunSpeed;
 
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
+
     private CharacterController controller;
     private Vector3 CurrentMoveVelocity;
     private Vector3 MoveDampVelocity;
     private Vector3 CurrentForceVelocity;
+
+    private Vector3 Velocity;
+    private bool isGrounded;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +31,13 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if(isGrounded && Velocity.y < 0)
+        {
+            Velocity.y = -2f;
+        }
+
         Vector3 PlayerInput = new Vector3
         {
             x = Input.GetAxis("Horizontal"),
@@ -62,5 +76,8 @@ public class PlayerMove : MonoBehaviour
 
             controller.Move(CurrentForceVelocity * Time.deltaTime);
         }*/
+
+        Velocity.y +=  GravityStrength * Time.deltaTime;
+        controller.Move(Velocity * Time.deltaTime);
     }
 }

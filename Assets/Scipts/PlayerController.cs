@@ -5,30 +5,45 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 0;
-    
-    private Rigidbody rb;
-    private float movementX;
-    private float movementY;
+    public CharacterController controller;
+
+    public float speed = 12f;
+    public float gravity = -9.81f;
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
+    public float jumpHeight = 3f;
+
+    private Vector3 velocity;
+    private bool isGrounded;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        
     }
 
-    void OnMove(InputValue value)
+    void Update()
     {
-        Vector2 movementVector = value.Get<Vector2>();
-        Debug.Log(movementVector);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        movementX = movementVector.x;
-        movementY = movementVector.y;
-    }
+        if(isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
 
-    void FixedUpdate()
-    {
-        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-        rb.AddForce(movement * speed);
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        Vector3 move = transform.right * x + transform.forward * z;
+        controller.Move(move * speed * Time.deltaTime);
+
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(gravity * -2f * jumpHeight);
+        }
+
+        velocity.y += gravity * Time.deltaTime; 
+        controller.Move(velocity * Time.deltaTime);
     }
 }
