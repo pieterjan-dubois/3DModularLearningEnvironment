@@ -53,6 +53,30 @@ public class PlacementController : MonoBehaviour
                 }
             }
 
+            if (Input.GetKey(KeyCode.Keypad2) && currentPlaceableObject.transform.localScale.z > 0.2f)
+            {
+                currentPlaceableObject.transform.localScale -= new Vector3(0, 0, 0.05f);
+            }
+
+            if (Input.GetKey(KeyCode.Keypad8))
+            {
+                if (currentPlaceableObject.tag == "Floor" || currentPlaceableObject.transform.localScale.z < 3f)
+                {
+                    currentPlaceableObject.transform.localScale += new Vector3(0, 0, 0.05f);
+
+                }
+            }
+
+            if (Input.GetKey(KeyCode.Keypad4) && currentPlaceableObject.transform.localScale.x > 0.5f)
+            {
+                currentPlaceableObject.transform.localScale -= new Vector3(0.05f, 0, 0);
+            }
+
+            if (Input.GetKey(KeyCode.Keypad6))
+            {
+                currentPlaceableObject.transform.localScale += new Vector3(0.05f, 0, 0);
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
                 CreateObject();
@@ -127,7 +151,7 @@ public class PlacementController : MonoBehaviour
         currentPlaceableObject.transform.Rotate(0, 90, 0);
     }
 
-    private float SnapToGrid(float  n)
+    private float SnapToGrid(float n)
     {
         return (Mathf.Round(n / gridSize) * gridSize) / 2;
     }
