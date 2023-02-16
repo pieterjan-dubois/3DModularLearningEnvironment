@@ -94,7 +94,10 @@ public class PlacementController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                CreateObject();
+                if (currentPlaceableObject != null)
+                {
+                    CreateObject();
+                }
             }
 
             if (Input.GetMouseButton(2))
@@ -102,6 +105,15 @@ public class PlacementController : MonoBehaviour
                 Destroy(currentPlaceableObject);
             }
         }
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                DestroyObject();
+            }
+        }
+
+        
     }
 
     private void HandleNewObjectHotkey()
@@ -180,6 +192,23 @@ public class PlacementController : MonoBehaviour
     {
         return (Mathf.Round(n / gridSize) * gridSize) / 2;
     }
+
+    void DestroyObject()
+    {
+        Ray ray;
+        RaycastHit hit;
+
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall")
+            {
+                Destroy(hit.transform.gameObject);
+            }
+        }
+
+    }
+
 
 
 }
