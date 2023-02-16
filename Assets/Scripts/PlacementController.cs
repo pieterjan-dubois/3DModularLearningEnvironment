@@ -22,6 +22,10 @@ public class PlacementController : MonoBehaviour
         if (currentPlaceableObject != null)
         {
             MoveCurrentObjectToMouse();
+            if (Input.GetMouseButtonDown(1))
+            {
+                RotateObject();
+            }
             if (Input.GetMouseButtonDown(0))
             {
                 CreateObject();
@@ -73,5 +77,10 @@ public class PlacementController : MonoBehaviour
                 newObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
                 newObj.transform.position = transform.position;
                 newObj.layer = 9; // set to Spawned Objects layer*/
+    }
+
+    void RotateObject()
+    {
+        currentPlaceableObject.transform.Rotate(0, 15, 0);
     }
 }
