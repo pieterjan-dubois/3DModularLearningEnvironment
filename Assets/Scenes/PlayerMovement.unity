@@ -1730,6 +1730,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   jumpHeight: 3
+  height: 2
+  crouchHeight: 0.5
 --- !u!143 &1323469417
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2423,7 +2425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63633634c789d47d580897d6e5cecaa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MouseSensitivity: 100
+  MouseSensitivity: 1000
   PlayerBody: {fileID: 1323469415}
 --- !u!1 &1882358834
 GameObject:
