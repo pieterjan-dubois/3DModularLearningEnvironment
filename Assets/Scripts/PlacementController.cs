@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class PlacementController : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class PlacementController : MonoBehaviour
     private GameObject currentPlaceableObject;
 
     public Material placing;
+
+    private float height;
+    private float initialHeight;
 
     private Material objectMaterial;
 
@@ -21,11 +25,27 @@ public class PlacementController : MonoBehaviour
 
         if (currentPlaceableObject != null)
         {
+
             MoveCurrentObjectToMouse();
             if (Input.GetMouseButtonDown(1))
             {
                 RotateObject();
             }
+
+            if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            {
+                height += 3f;
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            {
+                if (height > initialHeight)
+                {
+                    height -= 3f;
+                }
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
                 CreateObject();
@@ -48,6 +68,17 @@ public class PlacementController : MonoBehaviour
                 objectMaterial = currentPlaceableObject.GetComponent<MeshRenderer>().material;
                 currentPlaceableObject.GetComponent<MeshRenderer>().material = placing;
 
+                if (currentPlaceableObject.tag == "Floor")
+                {
+                    height = 3f;
+                    initialHeight = 3f;
+                }
+                else
+                {
+                    height = 1.5f;
+                    initialHeight = 1.5f;
+                }
+
             }
         }
     }
@@ -64,7 +95,7 @@ public class PlacementController : MonoBehaviour
 
         Vector3 mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Vector3 position = new Vector3(mousePosition.x, 1.5f, mousePosition.z);
+        Vector3 position = new Vector3(mousePosition.x, height, mousePosition.z);
         currentPlaceableObject.transform.position = Vector3.Lerp(transform.position, position, 1f);
     }
 
