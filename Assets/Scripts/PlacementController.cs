@@ -31,12 +31,13 @@ public class PlacementController : MonoBehaviour
             MoveCurrentObjectToMouse();
             if (Input.GetMouseButtonDown(1))
             {
-                RotateObject();
+                RotateObjectQuick();
             }
 
-            if (Input.GetMouseButtonDown(2))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                RotateObjectQuick();
+                RotateObject();
+
             }
 
             if (Input.GetKeyDown(KeyCode.KeypadPlus))
@@ -80,6 +81,11 @@ public class PlacementController : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 CreateObject();
+            }
+
+            if (Input.GetMouseButton(2))
+            {
+                Destroy(currentPlaceableObject);
             }
         }
     }
