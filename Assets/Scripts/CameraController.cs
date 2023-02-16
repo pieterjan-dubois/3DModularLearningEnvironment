@@ -10,6 +10,8 @@ public class CameraController : MonoBehaviour
     private float zoom;
     private Camera cam;
 
+    private Vector3 prevPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,5 +35,18 @@ public class CameraController : MonoBehaviour
 
         //change camera's orthographic size to create zooming in and out. Can only be between -25 and -5.
         cam.orthographicSize -= zoom;
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            transform.position = new Vector3(0, 60, -100);
+            transform.rotation = Quaternion.Euler(30, 0, 0);
+        }
+        
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            transform.position = new Vector3(0, 20, 0);
+            transform.rotation = Quaternion.Euler(90, 0, 0);
+        }
+
     }
 }
