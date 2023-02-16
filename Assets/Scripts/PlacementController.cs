@@ -32,6 +32,11 @@ public class PlacementController : MonoBehaviour
                 RotateObject();
             }
 
+            if (Input.GetMouseButtonDown(2))
+            {
+                RotateObjectQuick();
+            }
+
             if (Input.GetKeyDown(KeyCode.KeypadPlus))
             {
                 height += 3f;
@@ -113,5 +118,10 @@ public class PlacementController : MonoBehaviour
     void RotateObject()
     {
         currentPlaceableObject.transform.Rotate(0, 15, 0);
+    }
+
+    void RotateObjectQuick()
+    {
+        currentPlaceableObject.transform.Rotate(0, 90, 0);
     }
 }
