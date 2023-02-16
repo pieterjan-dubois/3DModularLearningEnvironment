@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlacementController : MonoBehaviour
 {
@@ -8,18 +8,20 @@ public class PlacementController : MonoBehaviour
 
     private GameObject currentPlaceableObject;
 
-    private float mouseWheelRotation;
-    private int currentPrefabIndex = -1;
 
-    private void Update()
+
+    // Update is called once per frame
+    void Update()
     {
         HandleNewObjectHotkey();
 
         if (currentPlaceableObject != null)
         {
             MoveCurrentObjectToMouse();
-            /*RotateFromMouseWheel();*/
-            ReleaseIfClicked();
+            if (Input.GetMouseButtonDown(0))
+            {
+                CreateObject();
+            }
         }
     }
 
@@ -29,59 +31,40 @@ public class PlacementController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha0 + 1 + i))
             {
-                if (PressedKeyOfCurrentPrefab(i))
+                if (currentPlaceableObject != null)
                 {
                     Destroy(currentPlaceableObject);
-                    currentPrefabIndex = -1;
-                }
-                else
-                {
-                    if (currentPlaceableObject != null)
-                    {
-                        Destroy(currentPlaceableObject);
-                    }
-
-                    currentPlaceableObject = Instantiate(placeableObjectPrefabs[i]);
-                    currentPrefabIndex = i;
                 }
 
-                break;
+                currentPlaceableObject = Instantiate(placeableObjectPrefabs[i]);
+
             }
         }
     }
 
-    private bool PressedKeyOfCurrentPrefab(int i)
-    {
-        return currentPlaceableObject != null && currentPrefabIndex == i;
-    }
-
     private void MoveCurrentObjectToMouse()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // Have the object follow the mouse cursor by getting mouse coordinates and converting them to world point.
+        /* ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo))
-        {
-            currentPlaceableObject.transform.position = new Vector3(
-            Mathf.Clamp(hitInfo.point.x, -20, 20),
-            0.75f,
-            Mathf.Clamp(hitInfo.point.z, -20, 20));
-            /*currentPlaceableObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);*/
-        }
+         if (Physics.Raycast(ray, out hit))
+         {
+             currentPlaceableObject.transform.position = new Vector3(hit.point.x, 1.5f, hit.point.z);
+         }*/
+
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector3 position = new Vector3(mousePosition.x, 1.5f, mousePosition.z);
+        currentPlaceableObject.transform.position = Vector3.Lerp(transform.position, position, 1f);
     }
 
-    /*private void RotateFromMouseWheel()
+    void CreateObject()
     {
-        Debug.Log(Input.mouseScrollDelta);
-        mouseWheelRotation += Input.mouseScrollDelta.y;
-        currentPlaceableObject.transform.Rotate(Vector3.up, mouseWheelRotation * 10f);
-    }*/
-
-    private void ReleaseIfClicked()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            currentPlaceableObject = null;
-        }
+        GameObject newObj = Instantiate(currentPlaceableObject);
+        /*
+                //Create object
+                newObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                newObj.transform.position = transform.position;
+                newObj.layer = 9; // set to Spawned Objects layer*/
     }
 }
