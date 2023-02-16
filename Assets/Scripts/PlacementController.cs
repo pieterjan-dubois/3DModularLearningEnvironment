@@ -42,7 +42,14 @@ public class PlacementController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.KeypadPlus))
             {
-                height += 3f;
+                if (currentPlaceableObject.tag == "WallPart")
+                {
+                    height += 1f;
+                }
+                else
+                {
+                    height += 3f;
+                }
 
             }
 
@@ -50,7 +57,14 @@ public class PlacementController : MonoBehaviour
             {
                 if (height > initialHeight)
                 {
-                    height -= 3f;
+                    if (currentPlaceableObject.tag == "WallPart")
+                    {
+                        height -= 1f;
+                    }
+                    else
+                    {
+                        height -= 3f;
+                    }
                 }
             }
 
@@ -109,6 +123,11 @@ public class PlacementController : MonoBehaviour
                 {
                     height = 3f;
                     initialHeight = 3f;
+                }
+                else if (currentPlaceableObject.tag == "WallPart")
+                {
+                    height = 0.5f;
+                    initialHeight = 0.5f;
                 }
                 else
                 {
