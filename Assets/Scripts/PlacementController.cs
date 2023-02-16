@@ -16,6 +16,8 @@ public class PlacementController : MonoBehaviour
 
     private Material objectMaterial;
 
+    public float gridSize = 0.5f;
+
 
 
     // Update is called once per frame
@@ -99,8 +101,8 @@ public class PlacementController : MonoBehaviour
          }*/
 
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Vector3 position = new Vector3(mousePosition.x, height, mousePosition.z);
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition) * 2;
+        Vector3 position = new Vector3(SnapToGrid(mousePosition.x), height, SnapToGrid(mousePosition.z));
         currentPlaceableObject.transform.position = Vector3.Lerp(transform.position, position, 1f);
     }
 
@@ -124,4 +126,11 @@ public class PlacementController : MonoBehaviour
     {
         currentPlaceableObject.transform.Rotate(0, 90, 0);
     }
+
+    private float SnapToGrid(float  n)
+    {
+        return (Mathf.Round(n / gridSize) * gridSize) / 2;
+    }
+
+
 }
