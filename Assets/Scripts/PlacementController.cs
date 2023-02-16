@@ -8,6 +8,10 @@ public class PlacementController : MonoBehaviour
 
     private GameObject currentPlaceableObject;
 
+    public Material placing;
+
+    private Material objectMaterial;
+
 
 
     // Update is called once per frame
@@ -37,6 +41,8 @@ public class PlacementController : MonoBehaviour
                 }
 
                 currentPlaceableObject = Instantiate(placeableObjectPrefabs[i]);
+                objectMaterial = currentPlaceableObject.GetComponent<MeshRenderer>().material;
+                currentPlaceableObject.GetComponent<MeshRenderer>().material = placing;
 
             }
         }
@@ -61,6 +67,7 @@ public class PlacementController : MonoBehaviour
     void CreateObject()
     {
         GameObject newObj = Instantiate(currentPlaceableObject);
+        newObj.GetComponent<MeshRenderer>().material = objectMaterial;
         /*
                 //Create object
                 newObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
