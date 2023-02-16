@@ -23,7 +23,11 @@ public class PlacementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleNewObjectHotkey();
+        if (!Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            HandleNewObjectHotkey();
+        }
+
 
         if (currentPlaceableObject != null)
         {
@@ -100,7 +104,7 @@ public class PlacementController : MonoBehaviour
                 }
             }
 
-            if (Input.GetMouseButton(2))
+            if (Input.GetMouseButton(2) || Input.GetKey(KeyCode.LeftControl))
             {
                 Destroy(currentPlaceableObject);
             }
@@ -113,7 +117,7 @@ public class PlacementController : MonoBehaviour
             }
         }
 
-        
+
     }
 
     private void HandleNewObjectHotkey()
