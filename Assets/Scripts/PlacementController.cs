@@ -5,8 +5,7 @@ using System.Collections.Generic;
 
 public class PlacementController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] placeableObjectPrefabs;
+    public GameObject[] placeableObjectPrefabs;
 
     private GameObject currentPlaceableObject;
 
@@ -75,12 +74,12 @@ public class PlacementController : MonoBehaviour
                 }
             }
 
-            if (Input.GetKey(KeyCode.Keypad2) && currentPlaceableObject.transform.localScale.z > 0.2f)
+            if (Input.GetKeyDown(KeyCode.Keypad2) && currentPlaceableObject.transform.localScale.z > 0.2f)
             {
                 currentPlaceableObject.transform.localScale -= new Vector3(0, 0, 0.05f);
             }
 
-            if (Input.GetKey(KeyCode.Keypad8))
+            if (Input.GetKeyDown(KeyCode.Keypad8))
             {
                 if (currentPlaceableObject.tag == "Floor" || currentPlaceableObject.transform.localScale.z < 3f)
                 {
@@ -89,12 +88,12 @@ public class PlacementController : MonoBehaviour
                 }
             }
 
-            if (Input.GetKey(KeyCode.Keypad4) && currentPlaceableObject.transform.localScale.x > 0.5f)
+            if (Input.GetKeyDown(KeyCode.Keypad4) && currentPlaceableObject.transform.localScale.x > 0.5f)
             {
                 currentPlaceableObject.transform.localScale -= new Vector3(0.05f, 0, 0);
             }
 
-            if (Input.GetKey(KeyCode.Keypad6))
+            if (Input.GetKeyDown(KeyCode.Keypad6))
             {
                 currentPlaceableObject.transform.localScale += new Vector3(0.05f, 0, 0);
             }
