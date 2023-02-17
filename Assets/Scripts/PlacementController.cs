@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlacementController : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PlacementController : MonoBehaviour
     private Material objectMaterial;
 
     public float gridSize = 0.5f;
+
+    public LevelEditor level;
 
 
 
@@ -175,11 +178,16 @@ public class PlacementController : MonoBehaviour
     {
         GameObject newObj = Instantiate(currentPlaceableObject);
         newObj.GetComponent<MeshRenderer>().material = objectMaterial;
-        /*
-                //Create object
-                newObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-                newObj.transform.position = transform.position;
-                newObj.layer = 9; // set to Spawned Objects layer*/
+
+        CreatedObject newObjData = newObj.AddComponent<CreatedObject>();
+        newObjData.data.position = newObj.transform.position;
+        newObjData.data.rotation = newObj.transform.rotation;
+        newObjData.data.scale = newObj.transform.localScale;
+        newObjData.data.tag = newObj.tag;
+
+        level.createdObjects.Add(newObjData.data);
+
+
     }
 
     void RotateObject()
