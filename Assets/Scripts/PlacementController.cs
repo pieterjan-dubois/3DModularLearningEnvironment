@@ -107,10 +107,14 @@ public class PlacementController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                if (currentPlaceableObject != null)
+                if (!EventSystem.current.IsPointerOverGameObject()) // if not over UI
                 {
-                    CreateObject();
+                    if (currentPlaceableObject != null)
+                    {
+                        CreateObject();
+                    }
                 }
+                
             }
 
             if (Input.GetMouseButton(2) || Input.GetKey(KeyCode.LeftControl))
