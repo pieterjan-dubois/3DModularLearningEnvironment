@@ -42,7 +42,7 @@ public class PlacementController : MonoBehaviour
                 RotateObjectQuick();
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButtonDown(2))
             {
                 RotateObject();
 
@@ -117,7 +117,7 @@ public class PlacementController : MonoBehaviour
                 
             }
 
-            if (Input.GetMouseButton(2) || Input.GetKey(KeyCode.LeftControl))
+            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl))
             {
                 Destroy(currentPlaceableObject);
             }
