@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlacementController : MonoBehaviour
 {
@@ -31,6 +32,17 @@ public class PlacementController : MonoBehaviour
     private Button widthMinusButton;
     private Button lengthPlusButton;
     private Button lengthMinusButton;
+    private Button wall;
+    private Button floor;
+    private Button wallPart;
+    private Button heightButton;
+    
+    private TextMeshProUGUI heightText;
+    private float heightForText;
+
+    private GameObject selected;
+    private Vector3 selectedPosition;
+    
 
 
     void Start()
@@ -54,6 +66,20 @@ public class PlacementController : MonoBehaviour
         lengthMinusButton = GameObject.Find("LengthMinusButton").GetComponent<Button>();
         lengthPlusButton.onClick.AddListener(IncreaseLength);
         lengthMinusButton.onClick.AddListener(DecreaseLength);
+
+        selected = GameObject.Find("Selected");
+        selectedPosition = selected.transform.position;
+
+        wall = GameObject.Find("Wall").GetComponent<Button>();
+        floor = GameObject.Find("Floor").GetComponent<Button>();
+        wallPart = GameObject.Find("WallPart").GetComponent<Button>();
+        wall.onClick.AddListener(() => { ChangeObject(0); });
+        floor.onClick.AddListener(() => { ChangeObject(1); });
+        wallPart.onClick.AddListener(() => { ChangeObject(2); });
+
+        heightButton = GameObject.Find("HeightButton").GetComponent<Button>();
+        heightText = heightButton.GetComponentInChildren<TextMeshProUGUI>();
+
     }
 
 
@@ -70,6 +96,7 @@ public class PlacementController : MonoBehaviour
         {
 
             MoveCurrentObjectToMouse();
+
             if (Input.GetMouseButtonDown(1))
             {
                 RotateObjectQuick();
@@ -117,19 +144,14 @@ public class PlacementController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                if (!EventSystem.current.IsPointerOverGameObject()) // if not over UI
-                {
-                    if (currentPlaceableObject != null)
-                    {
-                        CreateObject();
-                    }
-                }
+                CreateObject();
 
             }
 
             if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl))
             {
                 Destroy(currentPlaceableObject);
+                heightText.text = "Hoogte";
             }
         }
         else
@@ -149,31 +171,7 @@ public class PlacementController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha0 + 1 + i))
             {
-                if (currentPlaceableObject != null)
-                {
-                    Destroy(currentPlaceableObject);
-                }
-
-                currentPlaceableObject = Instantiate(placeableObjectPrefabs[i]);
-                objectMaterial = currentPlaceableObject.GetComponent<MeshRenderer>().material;
-                currentPlaceableObject.GetComponent<MeshRenderer>().material = placing;
-                placing.SetColor("_Color", new Color(0.3f, 0.8f, 1f, 0.5f));
-
-                if (currentPlaceableObject.tag == "Floor")
-                {
-                    height = 3f;
-                    initialHeight = 3f;
-                }
-                else if (currentPlaceableObject.tag == "WallPart")
-                {
-                    height = 0.25f;
-                    initialHeight = 0.25f;
-                }
-                else
-                {
-                    height = 1.5f;
-                    initialHeight = 1.5f;
-                }
+                ChangeObject(i);
 
             }
         }
@@ -181,13 +179,6 @@ public class PlacementController : MonoBehaviour
 
     private void MoveCurrentObjectToMouse()
     {
-        // Have the object follow the mouse cursor by getting mouse coordinates and converting them to world point.
-        /* ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-         if (Physics.Raycast(ray, out hit))
-         {
-             currentPlaceableObject.transform.position = new Vector3(hit.point.x, 1.5f, hit.point.z);
-         }*/
 
         Vector3 mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition) * 2;
@@ -197,17 +188,22 @@ public class PlacementController : MonoBehaviour
 
     void CreateObject()
     {
-        GameObject newObj = Instantiate(currentPlaceableObject);
-        newObj.GetComponent<MeshRenderer>().material = objectMaterial;
+        if (!EventSystem.current.IsPointerOverGameObject()) // if not over UI
+        {
+            if (currentPlaceableObject != null)
+            {
+                GameObject newObj = Instantiate(currentPlaceableObject);
+                newObj.GetComponent<MeshRenderer>().material = objectMaterial;
 
-        CreatedObject newObjData = newObj.AddComponent<CreatedObject>();
-        newObjData.data.position = newObj.transform.position;
-        newObjData.data.rotation = newObj.transform.rotation;
-        newObjData.data.scale = newObj.transform.localScale;
-        newObjData.data.tag = newObj.tag;
+                CreatedObject newObjData = newObj.AddComponent<CreatedObject>();
+                newObjData.data.position = newObj.transform.position;
+                newObjData.data.rotation = newObj.transform.rotation;
+                newObjData.data.scale = newObj.transform.localScale;
+                newObjData.data.tag = newObj.tag;
 
-        level.createdObjects.Add(newObjData.data);
-
+                level.createdObjects.Add(newObjData.data);
+            }
+        }
 
     }
 
@@ -246,11 +242,15 @@ public class PlacementController : MonoBehaviour
     {
         if (currentPlaceableObject.tag == "WallPart")
         {
-            height += 0.5f;
+            height += 0.25f;
+            heightForText += 0.25f;
+            heightText.text = "Hoogte: " + heightForText.ToString();
         }
         else
         {
             height += 3f;
+            heightForText += 3f;
+            heightText.text = "Hoogte: " + heightForText .ToString();
         }
 
         placing.color = new Color(placing.color.r, placing.color.g + colorChange, placing.color.b + colorChange, placing.color.a);
@@ -264,13 +264,18 @@ public class PlacementController : MonoBehaviour
             if (currentPlaceableObject.tag == "WallPart")
             {
                 height -= 0.5f;
+                heightForText -= 0.5f;
+                heightText.text = "Hoogte: " + heightForText.ToString();
             }
             else
             {
                 height -= 3f;
+                heightForText -= 3f;
+                heightText.text = "Hoogte: " + heightForText.ToString();
             }
 
             placing.color = new Color(placing.color.r, placing.color.g + colorChange, placing.color.b + colorChange, placing.color.a);
+            
 
         }
     }
@@ -307,6 +312,46 @@ public class PlacementController : MonoBehaviour
         {
             currentPlaceableObject.transform.localScale += new Vector3(0, 0, 0.05f);
         }
+
+    }
+
+    void ChangeObject(int i)
+    {
+        if (currentPlaceableObject != null)
+        {
+            Destroy(currentPlaceableObject);
+        }
+
+        currentPlaceableObject = Instantiate(placeableObjectPrefabs[i]);
+        objectMaterial = currentPlaceableObject.GetComponent<MeshRenderer>().material;
+        currentPlaceableObject.GetComponent<MeshRenderer>().material = placing;
+        placing.SetColor("_Color", new Color(0.3f, 0.8f, 1f, 0.5f));
+
+        selected.transform.position = selectedPosition + new Vector3(100 * i, 0, 0);
+
+        if (currentPlaceableObject.tag == "Floor")
+        {
+            height = 3f;
+            initialHeight = 3f;
+            heightForText = 3f;
+
+        }
+        else if (currentPlaceableObject.tag == "WallPart")
+        {
+            height = 0.25f;
+            initialHeight = 0.25f;
+            heightForText = 0;
+
+        }
+        else
+        {
+            height = 1.5f;
+            initialHeight = 1.5f;
+            heightForText = 0;
+
+        }
+
+        heightText.text = "Hoogte: " + heightForText.ToString();
 
     }
 
