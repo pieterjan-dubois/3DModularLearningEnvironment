@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PlacementController : MonoBehaviour
 {
@@ -22,6 +23,38 @@ public class PlacementController : MonoBehaviour
 
     private float colorChange = 0.1f;
 
+    private Button heightPlusButton;
+    private Button heightMinusButton;
+    private Button smallRotateButton;
+    private Button largeRotateButton;
+    private Button widthPlusButton;
+    private Button widthMinusButton;
+    private Button lengthPlusButton;
+    private Button lengthMinusButton;
+
+
+    void Start()
+    {
+        heightPlusButton = GameObject.Find("HeightPlusButton").GetComponent<Button>();
+        heightMinusButton = GameObject.Find("HeightMinusButton").GetComponent<Button>();
+        heightPlusButton.onClick.AddListener(IncreaseHeight);
+        heightMinusButton.onClick.AddListener(DecreaseHeight);
+
+        smallRotateButton = GameObject.Find("RotateSmall").GetComponent<Button>();
+        largeRotateButton = GameObject.Find("RotateLarge").GetComponent<Button>();
+        smallRotateButton.onClick.AddListener(RotateObject);
+        largeRotateButton.onClick.AddListener(RotateObjectQuick);
+
+        widthPlusButton = GameObject.Find("WidthPlusButton").GetComponent<Button>();
+        widthMinusButton = GameObject.Find("WidthMinusButton").GetComponent<Button>();
+        widthPlusButton.onClick.AddListener(IncreaseWidth);
+        widthMinusButton.onClick.AddListener(DecreaseWidth);
+
+        lengthPlusButton = GameObject.Find("LengthPlusButton").GetComponent<Button>();
+        lengthMinusButton = GameObject.Find("LengthMinusButton").GetComponent<Button>();
+        lengthPlusButton.onClick.AddListener(IncreaseLength);
+        lengthMinusButton.onClick.AddListener(DecreaseLength);
+    }
 
 
     // Update is called once per frame
@@ -50,59 +83,36 @@ public class PlacementController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.KeypadPlus))
             {
-                if (currentPlaceableObject.tag == "WallPart")
-                {
-                    height += 0.5f;
-                }
-                else
-                {
-                    height += 3f;
-                }
 
-                placing.color = new Color(placing.color.r, placing.color.g - colorChange, placing.color.b - colorChange, placing.color.a);
-
+                IncreaseHeight();
             }
 
             if (Input.GetKeyDown(KeyCode.KeypadMinus))
             {
-                if (height > initialHeight)
-                {
-                    if (currentPlaceableObject.tag == "WallPart")
-                    {
-                        height -= 0.5f;
-                    }
-                    else
-                    {
-                        height -= 3f;
-                    }
-
-                    placing.color = new Color(placing.color.r, placing.color.g + colorChange, placing.color.b + colorChange, placing.color.a);
-
-                }
+                DecreaseHeight();
             }
 
-            if (Input.GetKeyDown(KeyCode.Keypad2) && currentPlaceableObject.transform.localScale.z > 0.2f)
+            if (Input.GetKeyDown(KeyCode.Keypad4))
             {
-                currentPlaceableObject.transform.localScale -= new Vector3(0, 0, 0.05f);
-            }
 
-            if (Input.GetKeyDown(KeyCode.Keypad8))
-            {
-                if (currentPlaceableObject.tag == "Floor" || currentPlaceableObject.transform.localScale.z < 3f)
-                {
-                    currentPlaceableObject.transform.localScale += new Vector3(0, 0, 0.05f);
+                DecreaseLength();
 
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Keypad4) && currentPlaceableObject.transform.localScale.x > 0.5f)
-            {
-                currentPlaceableObject.transform.localScale -= new Vector3(0.05f, 0, 0);
             }
 
             if (Input.GetKeyDown(KeyCode.Keypad6))
             {
-                currentPlaceableObject.transform.localScale += new Vector3(0.05f, 0, 0);
+                IncreaseLength();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad2))
+            {
+
+                DecreaseWidth();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad8))
+            {
+                IncreaseWidth();
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -114,7 +124,7 @@ public class PlacementController : MonoBehaviour
                         CreateObject();
                     }
                 }
-                
+
             }
 
             if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl))
@@ -228,6 +238,74 @@ public class PlacementController : MonoBehaviour
             {
                 Destroy(hit.transform.gameObject);
             }
+        }
+
+    }
+
+    void IncreaseHeight()
+    {
+        if (currentPlaceableObject.tag == "WallPart")
+        {
+            height += 0.5f;
+        }
+        else
+        {
+            height += 3f;
+        }
+
+        placing.color = new Color(placing.color.r, placing.color.g + colorChange, placing.color.b + colorChange, placing.color.a);
+
+    }
+
+    void DecreaseHeight()
+    {
+        if (height > initialHeight)
+        {
+            if (currentPlaceableObject.tag == "WallPart")
+            {
+                height -= 0.5f;
+            }
+            else
+            {
+                height -= 3f;
+            }
+
+            placing.color = new Color(placing.color.r, placing.color.g + colorChange, placing.color.b + colorChange, placing.color.a);
+
+        }
+    }
+
+    void DecreaseLength()
+    {
+        if (currentPlaceableObject.transform.localScale.x > 0.5f)
+        {
+            currentPlaceableObject.transform.localScale -= new Vector3(0.05f, 0, 0);
+        }
+    }
+
+    void IncreaseLength()
+    {
+        currentPlaceableObject.transform.localScale += new Vector3(0.05f, 0, 0);
+    }
+
+    void DecreaseWidth()
+    {
+
+
+        if (currentPlaceableObject.transform.localScale.z > 0.2f)
+        {
+            currentPlaceableObject.transform.localScale -= new Vector3(0, 0, 0.05f);
+        }
+
+    }
+
+    void IncreaseWidth()
+    {
+
+
+        if (currentPlaceableObject.tag == "Floor" || currentPlaceableObject.transform.localScale.z < 3f)
+        {
+            currentPlaceableObject.transform.localScale += new Vector3(0, 0, 0.05f);
         }
 
     }
