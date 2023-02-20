@@ -20,6 +20,8 @@ public class PlacementController : MonoBehaviour
 
     public LevelEditor level;
 
+    private float colorChange = 0.1f;
+
 
 
     // Update is called once per frame
@@ -57,6 +59,8 @@ public class PlacementController : MonoBehaviour
                     height += 3f;
                 }
 
+                placing.color = new Color(placing.color.r, placing.color.g - colorChange, placing.color.b - colorChange, placing.color.a);
+
             }
 
             if (Input.GetKeyDown(KeyCode.KeypadMinus))
@@ -71,6 +75,9 @@ public class PlacementController : MonoBehaviour
                     {
                         height -= 3f;
                     }
+
+                    placing.color = new Color(placing.color.r, placing.color.g + colorChange, placing.color.b + colorChange, placing.color.a);
+
                 }
             }
 
@@ -136,6 +143,7 @@ public class PlacementController : MonoBehaviour
                 currentPlaceableObject = Instantiate(placeableObjectPrefabs[i]);
                 objectMaterial = currentPlaceableObject.GetComponent<MeshRenderer>().material;
                 currentPlaceableObject.GetComponent<MeshRenderer>().material = placing;
+                placing.SetColor("_Color", new Color(0.3f, 0.8f, 1f, 0.5f));
 
                 if (currentPlaceableObject.tag == "Floor")
                 {
