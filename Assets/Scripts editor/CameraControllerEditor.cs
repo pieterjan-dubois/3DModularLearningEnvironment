@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class CameraController : MonoBehaviour
+public class CameraControllerEditor : MonoBehaviour
 {
 
     private float xAxis;
