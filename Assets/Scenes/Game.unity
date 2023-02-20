@@ -330,7 +330,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 139613909}
         m_TargetAssemblyTypeName: CountdownTimer, Assembly-CSharp
-        m_MethodName: resetGame
+        m_MethodName: resetTheGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
