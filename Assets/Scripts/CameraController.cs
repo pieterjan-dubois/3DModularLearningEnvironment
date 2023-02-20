@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
         transform.Translate(new Vector3(xAxis, yAxis, 0.0f));
         transform.position = new Vector3(
             Mathf.Clamp(transform.position.x, -20, 20),
-            Mathf.Clamp(transform.position.y, 20, 20),
+            Mathf.Clamp(transform.position.y, 50, 50),
             Mathf.Clamp(transform.position.z, -20, 20)); // limit camera movement to -20 min, 20 max. Y value remains 20.
 
         //change camera's orthographic size to create zooming in and out. Can only be between -25 and -5.
@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
         
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
-            transform.position = new Vector3(0, 20, 0);
+            transform.position = new Vector3(0, 50, 0);
             transform.rotation = Quaternion.Euler(90, 0, 0);
         }
 
