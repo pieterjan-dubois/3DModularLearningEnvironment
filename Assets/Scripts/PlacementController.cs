@@ -50,7 +50,7 @@ public class PlacementController : MonoBehaviour
             {
                 if (currentPlaceableObject.tag == "WallPart")
                 {
-                    height += 1f;
+                    height += 0.5f;
                 }
                 else
                 {
@@ -65,7 +65,7 @@ public class PlacementController : MonoBehaviour
                 {
                     if (currentPlaceableObject.tag == "WallPart")
                     {
-                        height -= 1f;
+                        height -= 0.5f;
                     }
                     else
                     {
@@ -144,8 +144,8 @@ public class PlacementController : MonoBehaviour
                 }
                 else if (currentPlaceableObject.tag == "WallPart")
                 {
-                    height = 0.5f;
-                    initialHeight = 0.5f;
+                    height = 0.25f;
+                    initialHeight = 0.25f;
                 }
                 else
                 {
