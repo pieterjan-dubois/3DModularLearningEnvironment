@@ -9,8 +9,6 @@ using System.IO;
 public class LevelController : MonoBehaviour
 {
     public List<CreatedObject.Data> createdObjects;
-    public Button save;
-    public Button load;
     private GameObject[] placeableObjectPrefabs;
 
     private LevelEditor level;
@@ -18,25 +16,14 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        save.onClick.AddListener(SaveLevel);
-        load.onClick.AddListener(LoadLevel);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.S))
-        {
-            SaveLevel();
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L))
-        {
-            LoadLevel();
-        }
     }
 
-    public void SaveLevel()
+    public void SaveLevel(string levelName)
     {
         level = GetComponent<PlacementController>().level;
 
@@ -45,7 +32,7 @@ public class LevelController : MonoBehaviour
 
         string json = JsonUtility.ToJson(level);
         string folder = UnityEngine.Application.dataPath + "/Saved/";
-        string levelFile = "new_level.json";
+        string levelFile = levelName + ".json";
 
         Debug.Log("Saving..");
 
@@ -73,10 +60,10 @@ public class LevelController : MonoBehaviour
 
 
     // Loading a level
-    public void LoadLevel()
+    public void LoadLevel(string levelName)
     {
         string folder = UnityEngine.Application.dataPath + "/Saved/";
-        string levelFile = "new_level.json";
+        string levelFile = levelName + ".json";
 
         string path = Path.Combine(folder, levelFile); // set filepath
 
