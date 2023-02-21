@@ -45,29 +45,28 @@ public class PlacementController : MonoBehaviour
 
     private GameObject selectedObject;
 
+    private GameObject UI;
+
 
 
     void Start()
     {
+        UI = GameObject.Find("UI");
+
         heightPlusButton = GameObject.Find("HeightPlusButton").GetComponent<Button>();
         heightMinusButton = GameObject.Find("HeightMinusButton").GetComponent<Button>();
-        heightPlusButton.onClick.AddListener(IncreaseHeight);
-        heightMinusButton.onClick.AddListener(DecreaseHeight);
+
 
         smallRotateButton = GameObject.Find("RotateSmall").GetComponent<Button>();
         largeRotateButton = GameObject.Find("RotateLarge").GetComponent<Button>();
-        smallRotateButton.onClick.AddListener(RotateObject);
-        largeRotateButton.onClick.AddListener(RotateObjectQuick);
 
         widthPlusButton = GameObject.Find("WidthPlusButton").GetComponent<Button>();
         widthMinusButton = GameObject.Find("WidthMinusButton").GetComponent<Button>();
-        widthPlusButton.onClick.AddListener(IncreaseWidth);
-        widthMinusButton.onClick.AddListener(DecreaseWidth);
+
 
         lengthPlusButton = GameObject.Find("LengthPlusButton").GetComponent<Button>();
         lengthMinusButton = GameObject.Find("LengthMinusButton").GetComponent<Button>();
-        lengthPlusButton.onClick.AddListener(IncreaseLength);
-        lengthMinusButton.onClick.AddListener(DecreaseLength);
+
 
         selected = GameObject.Find("Selected");
         selectedPosition = selected.transform.position;
@@ -76,14 +75,24 @@ public class PlacementController : MonoBehaviour
         wall = GameObject.Find("Wall").GetComponent<Button>();
         floor = GameObject.Find("Floor").GetComponent<Button>();
         wallPart = GameObject.Find("WallPart").GetComponent<Button>();
-        wall.onClick.AddListener(() => { ChangeObject(0); });
-        floor.onClick.AddListener(() => { ChangeObject(1); });
-        wallPart.onClick.AddListener(() => { ChangeObject(2); });
+
 
         heightButton = GameObject.Find("HeightButton").GetComponent<Button>();
         heightText = heightButton.GetComponentInChildren<TextMeshProUGUI>();
 
         deleteButton = GameObject.Find("Delete").GetComponent<Button>();
+
+        heightPlusButton.onClick.AddListener(IncreaseHeight);
+        heightMinusButton.onClick.AddListener(DecreaseHeight);
+        smallRotateButton.onClick.AddListener(RotateObject);
+        largeRotateButton.onClick.AddListener(RotateObjectQuick);
+        widthPlusButton.onClick.AddListener(IncreaseWidth);
+        widthMinusButton.onClick.AddListener(DecreaseWidth);
+        lengthPlusButton.onClick.AddListener(IncreaseLength);
+        lengthMinusButton.onClick.AddListener(DecreaseLength);
+        wall.onClick.AddListener(() => { ChangeObject(0); });
+        floor.onClick.AddListener(() => { ChangeObject(1); });
+        wallPart.onClick.AddListener(() => { ChangeObject(2); });
         deleteButton.onClick.AddListener(() => { DestroyObject(selectedObject); });
 
     }
@@ -92,100 +101,127 @@ public class PlacementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Input.GetKeyDown(KeyCode.LeftControl))
+        if (UI.GetComponent<UIController>().allowInput)
         {
-            HandleNewObjectHotkey();
-        }
-
-
-        if (selectedObject == null && currentPlaceableObject != null)
-        {
-
-
-            MoveCurrentObjectToMouse();
-
-            if (Input.GetMouseButtonDown(0))
+            if (!Input.GetKeyDown(KeyCode.LeftControl))
             {
-                CreateObject();
-
+                HandleNewObjectHotkey();
             }
 
-            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift))
-            {
-                Destroy(currentPlaceableObject);
-                heightText.text = "Hoogte";
-                selected.SetActive(false);
-            }
-        }
 
-        if (!selected.activeSelf)
-        {
-            if (!EventSystem.current.IsPointerOverGameObject()) // if not over UI
+            if (selectedObject == null && currentPlaceableObject != null)
             {
+
+
+                MoveCurrentObjectToMouse();
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    ToggleSelection();
+                    CreateObject();
+
                 }
 
+                if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift))
+                {
+                    Destroy(currentPlaceableObject);
+                    heightText.text = "Hoogte";
+                    selected.SetActive(false);
+                }
             }
+
+            if (!selected.activeSelf)
+            {
+                if (!EventSystem.current.IsPointerOverGameObject()) // if not over UI
+                {
+
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        ToggleSelection();
+                    }
+
+                }
+            }
+
+
+
+            if (Input.GetKey(KeyCode.Delete))
+            {
+                DestroyObject(selectedObject);
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                RotateObjectQuick();
+            }
+
+            if (Input.GetMouseButtonDown(2))
+            {
+                RotateObject();
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            {
+                IncreaseHeight();
+            }
+
+            if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            {
+                DecreaseHeight();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad4) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad4)))
+            {
+                DecreaseWidth();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad6) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad6)))
+            {
+                IncreaseWidth();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad2) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad2)))
+            {
+                DecreaseLength();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad8) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad8)))
+            {
+                IncreaseLength();
+            }
+
+            if (selectedObject != null)
+            {
+                heightPlusButton.interactable = false;
+                heightMinusButton.interactable = false;
+                heightText.text = "Hoogte";
+            }
+
         }
 
+        heightPlusButton.interactable = UI.GetComponent<UIController>().allowInput;
+        heightMinusButton.interactable = UI.GetComponent<UIController>().allowInput;
+        smallRotateButton.interactable = UI.GetComponent<UIController>().allowInput;
+        largeRotateButton.interactable = UI.GetComponent<UIController>().allowInput;
+        widthPlusButton.interactable = UI.GetComponent<UIController>().allowInput;
+        widthMinusButton.interactable = UI.GetComponent<UIController>().allowInput;
+        lengthPlusButton.interactable = UI.GetComponent<UIController>().allowInput;
+        lengthMinusButton.interactable = UI.GetComponent<UIController>().allowInput;
+        wall.interactable = UI.GetComponent<UIController>().allowInput;
+        floor.interactable = UI.GetComponent<UIController>().allowInput;
+        wallPart.interactable = UI.GetComponent<UIController>().allowInput;
+        heightButton.interactable = UI.GetComponent<UIController>().allowInput;
+        deleteButton.interactable = UI.GetComponent<UIController>().allowInput;
+        
 
-
-        if (Input.GetKey(KeyCode.Delete))
+        if (!UI.GetComponent<UIController>().allowInput)
         {
-            DestroyObject(selectedObject);
+            selectedObject = null;
+            currentPlaceableObject = null;
+            selected.SetActive(false);
         }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            RotateObjectQuick();
-        }
-
-        if (Input.GetMouseButtonDown(2))
-        {
-            RotateObject();
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            IncreaseHeight();
-        }
-
-        if (Input.GetKeyDown(KeyCode.KeypadMinus))
-        {
-            DecreaseHeight();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad4) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad4)))
-        {
-            DecreaseWidth();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad6) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad6)))
-        {
-            IncreaseWidth();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad2) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad2)))
-        {
-            DecreaseLength();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad8) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad8)))
-        {
-            IncreaseLength();
-        }
-
-        if (selectedObject != null)
-        {
-            heightPlusButton.interactable = false;
-            heightMinusButton.interactable = false;
-            heightText.text = "Hoogte";
-        }
-
+        
+        
 
     }
 
@@ -395,12 +431,12 @@ public class PlacementController : MonoBehaviour
         {
             if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall")
             {
-                
+
                 selectedObject = hit.transform.gameObject;
                 objectMaterial = selectedObject.GetComponent<MeshRenderer>().material;
                 selectedObject.GetComponent<MeshRenderer>().material = selectedMaterial;
                 currentPlaceableObject = selectedObject;
-            
+
             }
         }
 

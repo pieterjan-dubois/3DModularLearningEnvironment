@@ -23,11 +23,16 @@ public class UIController : MonoBehaviour
     private Button saveButton;
     private Button loadButton;
 
-    public GameObject mouse;
+    private GameObject mouse;
+
+    
+    public bool allowInput;
 
     // Start is called before the first frame update
     void Start()
     {
+        mouse = GameObject.Find("Mouse");
+
         controlsText = GameObject.Find("ControlsText");
         controlsText.SetActive(false);
         mainUI = GameObject.Find("MainUI");
@@ -45,25 +50,37 @@ public class UIController : MonoBehaviour
 
         saveButton.onClick.AddListener(OpenSaveMenu);
         /*loadButton.onClick.AddListener(OpenLoadMenu);*/
+
+        allowInput = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (allowInput)
         {
-            ToggleUI();
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                ToggleUI();
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                ToggleControls();
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.S))
         {
-            ToggleControls();
+            OpenSaveMenu();
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+
     }
 
     void ToggleControls()
@@ -78,13 +95,16 @@ public class UIController : MonoBehaviour
 
     void OpenSaveMenu()
     {
+        allowInput = false;
+        mainUI.SetActive(false);
+
         saveAndLoadUI.SetActive(true);
         saveMenu.SetActive(true);
         /*loadMenu.SetActive(false);*/
 
         saveNameInputObject = GameObject.Find("SaveName");
         Debug.Log(saveNameInputObject);
-        saveNameInput = saveNameInputObject.GetComponent<InputField>();
+        saveNameInput = saveNameInputObject.GetComponent<InputField>(); 
         Debug.Log(saveNameInput);
 
         saveFileButton = GameObject.Find("SaveFileButton").GetComponent<Button>();
@@ -94,6 +114,8 @@ public class UIController : MonoBehaviour
 
     void OpenLoadMenu()
     {
+        allowInput = false;
+
         saveAndLoadUI.SetActive(true);
         saveMenu.SetActive(false);
         loadMenu.SetActive(true);
@@ -110,5 +132,17 @@ public class UIController : MonoBehaviour
         }
 
         mouse.GetComponent<LevelController>().SaveLevel(levelName);
+
+        CloseSaveMenu();
+    }
+
+    void CloseSaveMenu()
+    {
+        allowInput = true;
+        mainUI.SetActive(true);
+
+        saveAndLoadUI.SetActive(false);
+        saveMenu.SetActive(false);
+        /*loadMenu.SetActive(false); */
     }
 }

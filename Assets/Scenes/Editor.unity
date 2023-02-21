@@ -1844,7 +1844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239aa249424579943938e9a409de241d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse: {fileID: 983908374}
+  allowInput: 0
 --- !u!1 &777182072
 GameObject:
   m_ObjectHideFlags: 0

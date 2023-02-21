@@ -12,15 +12,21 @@ public class EditorCameraController : MonoBehaviour
 
     private Vector3 prevPosition;
 
+    private GameObject UI;
+
     // Start is called before the first frame update
     void Start()
     {
+        UI = GameObject.Find("UI");
         cam = GetComponent<Camera>(); // get the camera component for later use
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (UI.GetComponent<UIController>().allowInput)
+        { 
+        
         xAxis = Input.GetAxis("Horizontal"); // get user input
         yAxis = Input.GetAxis("Vertical");
 
@@ -46,6 +52,8 @@ public class EditorCameraController : MonoBehaviour
         {
             transform.position = new Vector3(0, 50, 0);
             transform.rotation = Quaternion.Euler(90, 0, 0);
+        }
+
         }
 
     }
