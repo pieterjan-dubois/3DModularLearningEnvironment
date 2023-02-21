@@ -36,13 +36,13 @@ public class EditorCameraController : MonoBehaviour
         //change camera's orthographic size to create zooming in and out. Can only be between -25 and -5.
         cam.orthographicSize -= zoom;
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             transform.position = new Vector3(0, 60, -100);
             transform.rotation = Quaternion.Euler(30, 0, 0);
         }
         
-        if (Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             transform.position = new Vector3(0, 50, 0);
             transform.rotation = Quaternion.Euler(90, 0, 0);

@@ -12,17 +12,16 @@ public class PlacementController : MonoBehaviour
     private GameObject currentPlaceableObject;
 
     public Material placing;
+    public Material selectedMaterial;
 
     private float height;
     private float initialHeight;
 
     private Material objectMaterial;
 
-    public float gridSize = 0.5f;
+    public float gridSize = 0.05f;
 
     public LevelEditor level;
-
-    private float colorChange = 0.1f;
 
     private Button heightPlusButton;
     private Button heightMinusButton;
@@ -36,12 +35,15 @@ public class PlacementController : MonoBehaviour
     private Button floor;
     private Button wallPart;
     private Button heightButton;
+    private Button deleteButton;
     
     private TextMeshProUGUI heightText;
     private float heightForText;
 
     private GameObject selected;
     private Vector3 selectedPosition;
+
+    private GameObject selectedObject;
     
 
 
@@ -69,6 +71,7 @@ public class PlacementController : MonoBehaviour
 
         selected = GameObject.Find("Selected");
         selectedPosition = selected.transform.position;
+        selected.SetActive(false);
 
         wall = GameObject.Find("Wall").GetComponent<Button>();
         floor = GameObject.Find("Floor").GetComponent<Button>();
@@ -79,6 +82,9 @@ public class PlacementController : MonoBehaviour
 
         heightButton = GameObject.Find("HeightButton").GetComponent<Button>();
         heightText = heightButton.GetComponentInChildren<TextMeshProUGUI>();
+
+        deleteButton = GameObject.Find("Delete").GetComponent<Button>();
+        deleteButton.onClick.AddListener(()=> { DestroyObject(selectedObject); });
 
     }
 
@@ -92,55 +98,11 @@ public class PlacementController : MonoBehaviour
         }
 
 
-        if (currentPlaceableObject != null)
+        if (selectedObject == null && currentPlaceableObject != null)
         {
 
+            
             MoveCurrentObjectToMouse();
-
-            if (Input.GetMouseButtonDown(1))
-            {
-                RotateObjectQuick();
-            }
-
-            if (Input.GetMouseButtonDown(2))
-            {
-                RotateObject();
-
-            }
-
-            if (Input.GetKeyDown(KeyCode.KeypadPlus))
-            {
-
-                IncreaseHeight();
-            }
-
-            if (Input.GetKeyDown(KeyCode.KeypadMinus))
-            {
-                DecreaseHeight();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Keypad4))
-            {
-
-                DecreaseLength();
-
-            }
-
-            if (Input.GetKeyDown(KeyCode.Keypad6))
-            {
-                IncreaseLength();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Keypad2))
-            {
-
-                DecreaseWidth();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Keypad8))
-            {
-                IncreaseWidth();
-            }
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -148,18 +110,75 @@ public class PlacementController : MonoBehaviour
 
             }
 
-            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl))
+            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift))
             {
                 Destroy(currentPlaceableObject);
                 heightText.text = "Hoogte";
+                selected.SetActive(false);
             }
         }
-        else
+
+        if (!selected.activeSelf)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                DestroyObject();
+                ToggleSelection();
             }
+        }
+
+        
+
+        if (Input.GetKey(KeyCode.Delete))
+        {
+            DestroyObject(selectedObject);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            RotateObjectQuick();
+        }
+
+        if (Input.GetMouseButtonDown(2))
+        {
+            RotateObject();
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            IncreaseHeight();
+        }
+
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            DecreaseHeight();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Keypad4) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad4)))
+        {
+            DecreaseWidth();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Keypad6) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad6)))
+        {
+            IncreaseWidth();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Keypad2) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad2)))
+        {
+            DecreaseLength();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Keypad8) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad8)))
+        {
+            IncreaseLength();
+        }
+
+        if (selectedObject != null)
+        {
+            heightPlusButton.interactable = false;
+            heightMinusButton.interactable = false;
+            heightText.text = "Hoogte";
         }
 
 
@@ -167,6 +186,7 @@ public class PlacementController : MonoBehaviour
 
     private void HandleNewObjectHotkey()
     {
+        
         for (int i = 0; i < placeableObjectPrefabs.Length; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha0 + 1 + i))
@@ -222,19 +242,10 @@ public class PlacementController : MonoBehaviour
         return (Mathf.Round(n / gridSize) * gridSize) / 2;
     }
 
-    void DestroyObject()
+    void DestroyObject(GameObject selectedObject)
     {
-        Ray ray;
-        RaycastHit hit;
-
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall")
-            {
-                Destroy(hit.transform.gameObject);
-            }
-        }
+        Destroy(selectedObject);
+        selectedObject = null;
 
     }
 
@@ -252,9 +263,6 @@ public class PlacementController : MonoBehaviour
             heightForText += 3f;
             heightText.text = "Hoogte: " + heightForText .ToString();
         }
-
-        placing.color = new Color(placing.color.r, placing.color.g + colorChange, placing.color.b + colorChange, placing.color.a);
-
     }
 
     void DecreaseHeight()
@@ -273,10 +281,7 @@ public class PlacementController : MonoBehaviour
                 heightForText -= 3f;
                 heightText.text = "Hoogte: " + heightForText.ToString();
             }
-
-            placing.color = new Color(placing.color.r, placing.color.g + colorChange, placing.color.b + colorChange, placing.color.a);
             
-
         }
     }
 
@@ -317,6 +322,8 @@ public class PlacementController : MonoBehaviour
 
     void ChangeObject(int i)
     {
+        selectedObject = null;
+        
         if (currentPlaceableObject != null)
         {
             Destroy(currentPlaceableObject);
@@ -327,6 +334,7 @@ public class PlacementController : MonoBehaviour
         currentPlaceableObject.GetComponent<MeshRenderer>().material = placing;
         placing.SetColor("_Color", new Color(0.3f, 0.8f, 1f, 0.5f));
 
+        selected.SetActive(true);
         selected.transform.position = selectedPosition + new Vector3(100 * i, 0, 0);
 
         if (currentPlaceableObject.tag == "Floor")
@@ -352,6 +360,37 @@ public class PlacementController : MonoBehaviour
         }
 
         heightText.text = "Hoogte: " + heightForText.ToString();
+
+    }
+
+    void ToggleSelection()
+    {
+
+        Ray ray;
+        RaycastHit hit;
+
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall")
+            {
+                if (selectedObject == hit.transform.gameObject || selectedObject != null)
+                {
+                    selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
+                    selectedObject = null;
+                }
+
+                selectedObject = hit.transform.gameObject;
+                objectMaterial = selectedObject.GetComponent<MeshRenderer>().material;
+                selectedObject.GetComponent<MeshRenderer>().material = selectedMaterial;
+                currentPlaceableObject = selectedObject;
+
+            }
+        }
+
+
+
+
 
     }
 
