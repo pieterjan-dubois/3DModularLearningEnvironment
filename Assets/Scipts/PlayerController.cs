@@ -19,12 +19,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -44,17 +38,6 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(gravity * -2f * jumpHeight);
         }
-
-        /*
-        if(Input.GetButtonDown("Crouch"))
-        {
-            height = crouchHeight;
-        }
-        else if(Input.GetButtonUp("Crouch"))
-        {
-            height = 2f;
-        }
-        */
 
         if(Input.GetKeyDown(KeyCode.C))
         {
