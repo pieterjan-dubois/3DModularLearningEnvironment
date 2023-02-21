@@ -322,12 +322,20 @@ public class PlacementController : MonoBehaviour
 
     void ChangeObject(int i)
     {
-        selectedObject = null;
         
-        if (currentPlaceableObject != null)
+        
+        if (currentPlaceableObject != null && selectedObject == null)
         {
             Destroy(currentPlaceableObject);
         }
+
+        if (selectedObject != null)
+        {
+            selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
+            selectedObject = null;
+        }
+
+        
 
         currentPlaceableObject = Instantiate(placeableObjectPrefabs[i]);
         objectMaterial = currentPlaceableObject.GetComponent<MeshRenderer>().material;
@@ -374,7 +382,7 @@ public class PlacementController : MonoBehaviour
         {
             if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall")
             {
-                if (selectedObject == hit.transform.gameObject || selectedObject != null)
+                if (selectedObject != null)
                 {
                     selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
                     selectedObject = null;
