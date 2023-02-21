@@ -36,6 +36,9 @@ public class UIController : MonoBehaviour
     public GameObject levelButtonPrefab;
     public GameObject deleteIconPrefab;
 
+    public GameObject messagePanel;
+    public TextMeshProUGUI message;
+
     List<string> levels;
 
 
@@ -61,6 +64,11 @@ public class UIController : MonoBehaviour
 
         saveButton.onClick.AddListener(OpenSaveMenu);
         loadButton.onClick.AddListener(OpenLoadMenu);
+
+        messagePanel = GameObject.Find("MessagePanel");
+        message = GameObject.Find("Message").GetComponent<TextMeshProUGUI>();
+
+        messagePanel.SetActive(false);
 
         allowInput = true;
     }
@@ -163,6 +171,10 @@ public class UIController : MonoBehaviour
 
         CloseSaveMenu();
         AssetDatabase.Refresh();
+        
+        messagePanel.SetActive(true);
+        message.text = "Level " + levelName + " succesvol opgeslagen!";
+        StartCoroutine(CloseMessagePanel());
     }
 
     void CloseSaveMenu()
@@ -208,6 +220,10 @@ public class UIController : MonoBehaviour
     {
         mouse.GetComponent<LevelController>().LoadLevel(levelName);
         CloseLoadMenu();
+
+        messagePanel.SetActive(true);
+        message.text = "Level " + levelName + " succesvol geladen!";
+        StartCoroutine(CloseMessagePanel());
     }
 
     void DeleteLevel(string levelName)
@@ -221,6 +237,10 @@ public class UIController : MonoBehaviour
         CloseLoadMenu();
         AssetDatabase.Refresh();
         OpenLoadMenu();
+
+        messagePanel.SetActive(true);
+        message.text = "Level " + levelName + " succesvol verwijderd!";
+        StartCoroutine(CloseMessagePanel());
     }
 
     void CreateButtons()
@@ -265,6 +285,12 @@ public class UIController : MonoBehaviour
             GameObject levelButton = GameObject.Find(levels[i] + "Button");
             Destroy(levelButton);
         }
+    }
+
+    public IEnumerator CloseMessagePanel()
+    {
+        yield return new WaitForSeconds(3);
+        messagePanel.SetActive(false);
     }
 
 }

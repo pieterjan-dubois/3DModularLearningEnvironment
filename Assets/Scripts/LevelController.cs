@@ -13,6 +13,8 @@ public class LevelController : MonoBehaviour
 
     private LevelEditor level;
 
+    private GameObject UI;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +28,13 @@ public class LevelController : MonoBehaviour
     public void SaveLevel(string levelName)
     {
         level = GetComponent<PlacementController>().level;
+
+        if (level == null)
+        {
+            UI.GetComponent<UIController>().messagePanel.SetActive(true);
+            UI.GetComponent<UIController>().message.text = "Level is leeg";
+            StartCoroutine(UI.GetComponent<UIController>().CloseMessagePanel());
+        }
 
         Debug.Log("Saving.");
 
@@ -89,6 +98,9 @@ public class LevelController : MonoBehaviour
         else // if the file could not be found
         {
             Debug.Log("File not found");
+            UI.GetComponent<UIController>().messagePanel.SetActive(true);
+            UI.GetComponent<UIController>().message.text = "Level " + levelName + " bestaat niet!";
+            StartCoroutine(UI.GetComponent<UIController>().CloseMessagePanel());
         }
     }
 
