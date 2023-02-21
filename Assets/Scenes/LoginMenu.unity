@@ -339,7 +339,9 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: Enter your Password
+  m_Text: 'Enter your Last name
+
+'
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -563,7 +565,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter your Password
+  m_Text: 'Enter your Last name
+
+'
 --- !u!1 &825752104
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,8 +1291,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -17, y: 51}
-  m_SizeDelta: {x: 200, y: 100}
+  m_AnchoredPosition: {x: 74, y: 70}
+  m_SizeDelta: {x: 204.9271, y: 95.0729}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2013496871
 MonoBehaviour:
@@ -1310,7 +1314,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Login to your account
+  m_text: 'Login '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1373,7 +1377,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -24.38272, y: 0, z: -73.41858, w: 51.087677}
+  m_margin: {x: -24.38272, y: 0, z: 135.98276, w: 51.087677}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1400,6 +1404,7 @@ GameObject:
   - component: {fileID: 2097558342}
   - component: {fileID: 2097558341}
   - component: {fileID: 2097558345}
+  - component: {fileID: 2097558346}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1507,3 +1512,16 @@ MonoBehaviour:
   username: {fileID: 928535605}
   password: {fileID: 320069489}
   PlayerInfo: {fileID: 0}
+  db: {fileID: 0}
+--- !u!114 &2097558346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097558340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860423a0052d443f385e14d973cb9dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
