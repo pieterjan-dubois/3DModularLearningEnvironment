@@ -41,6 +41,8 @@ public class UIController : MonoBehaviour
 
     List<string> levels;
 
+    private string activeLevel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +69,7 @@ public class UIController : MonoBehaviour
 
         messagePanel = GameObject.Find("MessagePanel");
         message = GameObject.Find("Message").GetComponent<TextMeshProUGUI>();
-
+        
         messagePanel.SetActive(false);
 
         allowInput = true;
@@ -129,9 +131,10 @@ public class UIController : MonoBehaviour
         closeSave = GameObject.Find("CloseSave").GetComponent<Button>();
         closeSave.onClick.AddListener(CloseSaveMenu);
 
-
         saveNameInputObject = GameObject.Find("SaveName");
         saveNameInput = saveNameInputObject.GetComponent<InputField>();
+        saveNameInput.text = activeLevel;
+
 
         saveFileButton = GameObject.Find("SaveFileButton").GetComponent<Button>();
         saveFileButton.onClick.AddListener(SaveLevel);
@@ -164,7 +167,6 @@ public class UIController : MonoBehaviour
         if (saveNameInput.text != "")
         {
             levelName = saveNameInput.text;
-            Debug.Log(levelName);
         }
 
         mouse.GetComponent<LevelController>().SaveLevel(levelName);
@@ -224,6 +226,8 @@ public class UIController : MonoBehaviour
         messagePanel.SetActive(true);
         message.text = "Level " + levelName + " succesvol geladen!";
         StartCoroutine(CloseMessagePanel());
+        saveNameInput.text = levelName;
+        activeLevel = levelName;
     }
 
     void DeleteLevel(string levelName)
