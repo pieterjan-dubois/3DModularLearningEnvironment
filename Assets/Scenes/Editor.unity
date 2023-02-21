@@ -1848,6 +1848,8 @@ MonoBehaviour:
   allowInput: 0
   levelButtonPrefab: {fileID: 1066460164067779719, guid: 14619d4ca0aefb74cb33fff3794ddc5a, type: 3}
   deleteIconPrefab: {fileID: 1540322971328243108, guid: c9449beb9dd0bc34faf7928b8fd14201, type: 3}
+  messagePanel: {fileID: 0}
+  message: {fileID: 0}
 --- !u!1 &714516873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1900,7 +1902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3590,8 +3592,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
