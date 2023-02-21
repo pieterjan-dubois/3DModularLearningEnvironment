@@ -8,15 +8,15 @@ public class LoginMenu : MonoBehaviour
 {
     public InputField username;
     public InputField password;
-    public Text PlayerInfo;
+    
+    private string dbName = "URI=file:Assets/db/Player.db";
 
-    private string dbName = "URI=file:Player.db";
+    public Database db;
     
     // Start is called before the first frame update
     void Start()
     {
         CreateDB();
-        //DisplayPlayer();
     }
 
     public void CreateDB()
@@ -51,31 +51,5 @@ public class LoginMenu : MonoBehaviour
             connection.Close();
         }
     }
-/*
-    public void DisplayPlayer()
-    {
-        PlayerInfo.text = "";
-
-        using (var connection = new SqliteConnection(dbName))
-        {
-            connection.Open();
-
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = "SELECT * FROM Player";
-
-                using (IDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                        PlayerInfo.text += reader["username"] + " " + reader["password"] + "\n";
-                    
-                    reader.Close();
-                    
-                }
-            }
-
-            connection.Close(); 
-        }    
-    }
-*/
+    
 }
