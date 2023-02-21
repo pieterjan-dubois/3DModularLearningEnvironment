@@ -207,8 +207,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2097558345}
-        m_TargetAssemblyTypeName: LoginMenu, Assembly-CSharp
+      - m_Target: {fileID: 2097558346}
+        m_TargetAssemblyTypeName: Database, Assembly-CSharp
         m_MethodName: AddPlayer
         m_Mode: 1
         m_Arguments:
@@ -1511,7 +1511,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   username: {fileID: 928535605}
   password: {fileID: 320069489}
-  PlayerInfo: {fileID: 0}
   db: {fileID: 0}
 --- !u!114 &2097558346
 MonoBehaviour:
@@ -1525,3 +1524,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860423a0052d443f385e14d973cb9dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: {fileID: 928535605}
+  lastname: {fileID: 320069489}
