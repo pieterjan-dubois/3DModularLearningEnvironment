@@ -36,7 +36,7 @@ public class PlacementController : MonoBehaviour
     private Button wallPart;
     private Button heightButton;
     private Button deleteButton;
-    
+
     private TextMeshProUGUI heightText;
     private float heightForText;
 
@@ -44,7 +44,7 @@ public class PlacementController : MonoBehaviour
     private Vector3 selectedPosition;
 
     private GameObject selectedObject;
-    
+
 
 
     void Start()
@@ -84,7 +84,7 @@ public class PlacementController : MonoBehaviour
         heightText = heightButton.GetComponentInChildren<TextMeshProUGUI>();
 
         deleteButton = GameObject.Find("Delete").GetComponent<Button>();
-        deleteButton.onClick.AddListener(()=> { DestroyObject(selectedObject); });
+        deleteButton.onClick.AddListener(() => { DestroyObject(selectedObject); });
 
     }
 
@@ -101,7 +101,7 @@ public class PlacementController : MonoBehaviour
         if (selectedObject == null && currentPlaceableObject != null)
         {
 
-            
+
             MoveCurrentObjectToMouse();
 
             if (Input.GetMouseButtonDown(0))
@@ -120,13 +120,18 @@ public class PlacementController : MonoBehaviour
 
         if (!selected.activeSelf)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!EventSystem.current.IsPointerOverGameObject()) // if not over UI
             {
-                ToggleSelection();
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    ToggleSelection();
+                }
+
             }
         }
 
-        
+
 
         if (Input.GetKey(KeyCode.Delete))
         {
@@ -186,7 +191,7 @@ public class PlacementController : MonoBehaviour
 
     private void HandleNewObjectHotkey()
     {
-        
+
         for (int i = 0; i < placeableObjectPrefabs.Length; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha0 + 1 + i))
@@ -261,7 +266,7 @@ public class PlacementController : MonoBehaviour
         {
             height += 3f;
             heightForText += 3f;
-            heightText.text = "Hoogte: " + heightForText .ToString();
+            heightText.text = "Hoogte: " + heightForText.ToString();
         }
     }
 
@@ -281,7 +286,7 @@ public class PlacementController : MonoBehaviour
                 heightForText -= 3f;
                 heightText.text = "Hoogte: " + heightForText.ToString();
             }
-            
+
         }
     }
 
@@ -322,8 +327,8 @@ public class PlacementController : MonoBehaviour
 
     void ChangeObject(int i)
     {
-        
-        
+
+
         if (currentPlaceableObject != null && selectedObject == null)
         {
             Destroy(currentPlaceableObject);
@@ -335,7 +340,7 @@ public class PlacementController : MonoBehaviour
             selectedObject = null;
         }
 
-        
+
 
         currentPlaceableObject = Instantiate(placeableObjectPrefabs[i]);
         objectMaterial = currentPlaceableObject.GetComponent<MeshRenderer>().material;
@@ -378,21 +383,24 @@ public class PlacementController : MonoBehaviour
         RaycastHit hit;
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (selectedObject != null)
+        {
+            selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
+            selectedObject = null;
+            currentPlaceableObject = null;
+        }
+
         if (Physics.Raycast(ray, out hit))
         {
             if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall")
             {
-                if (selectedObject != null)
-                {
-                    selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
-                    selectedObject = null;
-                }
-
+                
                 selectedObject = hit.transform.gameObject;
                 objectMaterial = selectedObject.GetComponent<MeshRenderer>().material;
                 selectedObject.GetComponent<MeshRenderer>().material = selectedMaterial;
                 currentPlaceableObject = selectedObject;
-
+            
             }
         }
 
