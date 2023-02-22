@@ -192,9 +192,12 @@ public class PlacementController : MonoBehaviour
 
             if (selectedObject != null)
             {
-                heightPlusButton.interactable = false;
+                /*heightPlusButton.interactable = false;
                 heightMinusButton.interactable = false;
-                heightText.text = "Hoogte";
+                heightText.text = "Hoogte";*/
+
+                selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, height, selectedObject.transform.position.z);
+
             }
 
         }
@@ -212,7 +215,7 @@ public class PlacementController : MonoBehaviour
         wallPart.interactable = UI.GetComponent<UIController>().allowInput;
         heightButton.interactable = UI.GetComponent<UIController>().allowInput;
         deleteButton.interactable = UI.GetComponent<UIController>().allowInput;
-        
+
 
         if (!UI.GetComponent<UIController>().allowInput)
         {
@@ -220,8 +223,8 @@ public class PlacementController : MonoBehaviour
             currentPlaceableObject = null;
             selected.SetActive(false);
         }
-        
-        
+
+
 
     }
 
@@ -425,6 +428,7 @@ public class PlacementController : MonoBehaviour
             selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
             selectedObject = null;
             currentPlaceableObject = null;
+            heightText.text = "Hoogte";
         }
 
         if (Physics.Raycast(ray, out hit))
@@ -436,6 +440,30 @@ public class PlacementController : MonoBehaviour
                 objectMaterial = selectedObject.GetComponent<MeshRenderer>().material;
                 selectedObject.GetComponent<MeshRenderer>().material = selectedMaterial;
                 currentPlaceableObject = selectedObject;
+
+                if (currentPlaceableObject.tag == "Floor")
+                {
+                    height = currentPlaceableObject.transform.position.y;
+                    initialHeight = 3f;
+                    heightForText = currentPlaceableObject.transform.position.y;
+
+                }
+                else if (currentPlaceableObject.tag == "WallPart")
+                {
+                    height = currentPlaceableObject.transform.position.y;
+                    initialHeight = 0.25f;
+                    heightForText = currentPlaceableObject.transform.position.y - 0.25f;
+
+                }
+                else
+                {
+                    height = currentPlaceableObject.transform.position.y;
+                    initialHeight = 1.5f;
+                    heightForText = currentPlaceableObject.transform.position.y - 1.5f;
+
+                }
+
+                heightText.text = "Hoogte: " + heightForText.ToString();
 
             }
         }
