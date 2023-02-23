@@ -45,17 +45,6 @@ public class PlayerController : MonoBehaviour
             velocity.y = Mathf.Sqrt(gravity * -2f * jumpHeight);
         }
 
-        /*
-        if(Input.GetButtonDown("Crouch"))
-        {
-            height = crouchHeight;
-        }
-        else if(Input.GetButtonUp("Crouch"))
-        {
-            height = 2f;
-        }
-        */
-
         if(Input.GetKeyDown(KeyCode.C))
         {
             controller.height = crouchHeight;
