@@ -469,7 +469,9 @@ public class PlacementController : MonoBehaviour
         }
 
 
-
+        //Set Time
+        //....
+        //level.timeLimit = time;
 
 
     }
