@@ -8,20 +8,32 @@ using System.IO;
 public class FloorplanController : MonoBehaviour
 {
     private Button uploadButton;
-    private GameObject ground;
+    private GameObject floors;
+
+    public GameObject floorPlane;
+
+    private GameObject currentFloorPlane;
 
     private string imagePath;
-    public Material floorplan;
     private GameObject UI;
     private int clickCount = 0;
+
+    private int currentFloor;
+
+    private Dictionary<int, GameObject> floorplans;
 
     // Start is called before the first frame update
     void Start()
     {
-        ground = GameObject.Find("Ground");
+        floors = GameObject.Find("Floors");
         uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
         Debug.Log("Upload Button: " + uploadButton);
         uploadButton.onClick.AddListener(Upload);
+        currentFloor = 0;
+        currentFloorPlane = GameObject.Find("Ground");
+        floorplans = new Dictionary<int, GameObject>();
+        floorplans.Add(0, currentFloorPlane);
+
 
         UI = GameObject.Find("UI");
 
@@ -41,7 +53,7 @@ public class FloorplanController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject.name == "Ground")
+                if (hit.collider.gameObject == currentFloorPlane)
                 {
                     //on double click
                     if (Input.GetMouseButtonDown(0))
@@ -61,12 +73,28 @@ public class FloorplanController : MonoBehaviour
                 }
 
             }
+
+            if (Input.GetKeyDown(KeyCode.PageUp))
+            {
+                currentFloor++;
+                SwitchFloor();
+            }
+            if (Input.GetKeyDown(KeyCode.PageDown))
+            {
+                if (currentFloor > 0)
+                {
+                    currentFloor--;
+                    SwitchFloor();
+                }
+
+            }
         }
         else
         {
             uploadButton.gameObject.SetActive(false);
 
         }
+
     }
 
     void Upload()
@@ -83,7 +111,12 @@ public class FloorplanController : MonoBehaviour
             Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(imageData);
 
+
+            Material floorplan = new Material(Shader.Find("Standard"));
             floorplan.mainTexture = texture;
+
+            Debug.Log(currentFloorPlane);
+            currentFloorPlane.GetComponent<MeshRenderer>().material = floorplan;
 
             uploadButton.gameObject.SetActive(false);
 
@@ -105,7 +138,7 @@ public class FloorplanController : MonoBehaviour
 
     }
 
-    public void LoadFloorplanFromSave(string imagePath)
+    public void LoadFloorplanFromSave(string imagePath, int floor)
     {
         if (imagePath != "")
         {
@@ -114,7 +147,9 @@ public class FloorplanController : MonoBehaviour
             Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(imageData);
 
+            Material floorplan = new Material(Shader.Find("Standard"));
             floorplan.mainTexture = texture;
+            currentFloorPlane.GetComponent<MeshRenderer>().material = floorplan;
 
             uploadButton.gameObject.SetActive(false);
 
@@ -130,5 +165,32 @@ public class FloorplanController : MonoBehaviour
         clickCount = 0;
     }
 
+    void SwitchFloor()
+    {
+        Debug.Log("Current Floor: " + currentFloorPlane);
+        GameObject previousFloor = currentFloorPlane;
+
+
+        if (!floorplans.ContainsKey(currentFloor))
+        {
+            currentFloorPlane = Instantiate(floorPlane, floors.transform);
+            currentFloorPlane.name = "Floor " + currentFloor;
+            currentFloorPlane.transform.position = new Vector3(0, 3 * currentFloor, 0);
+            floorplans.Add(currentFloor, currentFloorPlane);
+
+        }
+        else
+        {
+            currentFloorPlane = floorplans[currentFloor];
+        }
+        currentFloorPlane.SetActive(true);
+        previousFloor.SetActive(false);
+        /*uploadButton = currentFloorPlane.transform.Find("UploadButton").GetComponent<Button>();*/
+
+    }
+
+
 
 }
+
+

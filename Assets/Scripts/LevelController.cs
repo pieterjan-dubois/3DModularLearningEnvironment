@@ -92,7 +92,7 @@ public class LevelController : MonoBehaviour
             string json = File.ReadAllText(path); // provide text from json file
             level = JsonUtility.FromJson<LevelEditor>(json); // level information filled from json file
 
-            GameObject.Find("Ground").GetComponent<FloorplanController>().LoadFloorplanFromSave(level.floorPlanPath);
+            GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(level.floorPlanPath, 0);
             //Get PlacementController.timeLimit = level.timeLimit
 
             Debug.Log("Loading level..");
