@@ -12,6 +12,7 @@ public class UploadController : MonoBehaviour
 
     private string imagePath;
     public Material floorplan;
+    private GameObject UI;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,9 @@ public class UploadController : MonoBehaviour
         Debug.Log("Upload Button: " + uploadButton);
         uploadButton.onClick.AddListener(Upload);
 
-        
+        UI = GameObject.Find("UI");
+
+
     }
 
     // Update is called once per frame
@@ -47,6 +50,11 @@ public class UploadController : MonoBehaviour
             texture.LoadImage(imageData);
 
             floorplan.mainTexture = texture;
+
+            uploadButton.gameObject.SetActive(false);
+
+            UI.GetComponent<UIController>().messagePanel.SetActive(true);
+            UI.GetComponent<UIController>().message.text = "Vloerplan succesvol geüpload!";
 
 
         }

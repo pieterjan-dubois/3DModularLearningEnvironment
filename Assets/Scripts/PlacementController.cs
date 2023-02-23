@@ -391,9 +391,9 @@ public class PlacementController : MonoBehaviour
 
         if (currentPlaceableObject.tag == "Floor")
         {
-            height = 3f;
-            initialHeight = 3f;
-            heightForText = 3f;
+            height = 0;
+            initialHeight = 0;
+            heightForText = 0;
 
         }
         else if (currentPlaceableObject.tag == "WallPart")
@@ -444,7 +444,7 @@ public class PlacementController : MonoBehaviour
                 if (currentPlaceableObject.tag == "Floor")
                 {
                     height = currentPlaceableObject.transform.position.y;
-                    initialHeight = 3f;
+                    initialHeight = 0f;
                     heightForText = currentPlaceableObject.transform.position.y;
 
                 }
