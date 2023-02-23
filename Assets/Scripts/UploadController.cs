@@ -13,6 +13,7 @@ public class UploadController : MonoBehaviour
     private string imagePath;
     public Material floorplan;
     private GameObject UI;
+    private int clickCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,35 @@ public class UploadController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        Ray ray;
+        RaycastHit hit;
+
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.gameObject.name == "Ground")
+            {
+                //on double click
+                if (Input.GetMouseButtonDown(0))
+                {
+                    clickCount++;
+                    Debug.Log("Click Count: " + clickCount);
+                    if (clickCount == 2)
+                    {
+                        uploadButton.gameObject.SetActive(!uploadButton.gameObject.activeSelf);
+                        clickCount = 0;
+                    }
+                    else
+                    {
+                        StartCoroutine(ClickTimer());
+                    }
+                }
+            }
+
+        }
+
     }
 
     void Upload()
@@ -60,6 +89,12 @@ public class UploadController : MonoBehaviour
         }
 
         Debug.Log("Upload ended");
+    }
+
+    IEnumerator ClickTimer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        clickCount = 0;
     }
 
 
