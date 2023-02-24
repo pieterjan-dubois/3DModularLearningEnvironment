@@ -185,6 +185,8 @@ public class FloorplanController : MonoBehaviour
         }
         currentFloorPlane.SetActive(true);
         previousFloor.SetActive(false);
+        uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
+        uploadButton.onClick.AddListener(Upload);
         /*uploadButton = currentFloorPlane.transform.Find("UploadButton").GetComponent<Button>();*/
 
     }
@@ -192,5 +194,4 @@ public class FloorplanController : MonoBehaviour
 
 
 }
-
 

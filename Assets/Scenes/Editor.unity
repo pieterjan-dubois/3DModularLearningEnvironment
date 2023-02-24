@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2705,6 +2705,7 @@ GameObject:
   - component: {fileID: 983908375}
   - component: {fileID: 983908377}
   - component: {fileID: 983908378}
+  - component: {fileID: 983908379}
   m_Layer: 0
   m_Name: Mouse
   m_TagString: Untagged
@@ -2804,6 +2805,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   createdObjects: []
+--- !u!114 &983908379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983908374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58d83a424d9b0045b324f80e38cc0bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &995231110
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,6 +3733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorPlane: {fileID: 1893173988952568623, guid: cf088889d6b6cc047a82b4718c2e12f3, type: 3}
+  currentFloorPlane: {fileID: 0}
 --- !u!4 &1166253650
 Transform:
   m_ObjectHideFlags: 0
