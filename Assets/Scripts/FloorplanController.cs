@@ -236,6 +236,7 @@ public class FloorplanController : MonoBehaviour
 
             FloorData floorData = currentFloorPlane.AddComponent<FloorData>();
             floorData.data.floorNumber = currentFloor;
+            floorData.data.floorPlanPath = "";
 
             GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(floorData.data);
 

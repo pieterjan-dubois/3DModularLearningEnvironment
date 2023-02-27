@@ -64,6 +64,10 @@ public class LevelController : MonoBehaviour
 
         Debug.Log("Saved succesfully");
 
+        Debug.Log("Saving to DB");
+
+        GetComponent<Database>().SaveLevel(level, levelName);
+
 
     }
 
