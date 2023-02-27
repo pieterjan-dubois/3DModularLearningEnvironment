@@ -5,7 +5,7 @@ using TMPro;
 
 public class ShowTime : MonoBehaviour
 {
-    public TextMeshProUGUI gameObject;
+    new public TextMeshProUGUI gameObject;
     public TMP_InputField timeInput;
     public void updateTime(){
         gameObject.text = timeInput.text;
