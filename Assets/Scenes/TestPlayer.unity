@@ -770,11 +770,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 560061038}
   camHolder: {fileID: 543714209}
-  speed: 4
+  speed: 6
   sensitivity: 0.2
   maxForce: 1
   jumpForce: 3
   grounded: 0
+  finish: 1
 --- !u!54 &560061038
 Rigidbody:
   m_ObjectHideFlags: 0

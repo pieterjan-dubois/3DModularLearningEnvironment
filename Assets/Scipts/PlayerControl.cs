@@ -12,6 +12,9 @@ public class PlayerControl : MonoBehaviour
     public float maxForce;
     public float jumpForce;
     public bool grounded;
+    public float finish;
+
+    public static bool gameIsPaused;
 
     private Vector2 move;
     private Vector2 look;
@@ -35,6 +38,11 @@ public class PlayerControl : MonoBehaviour
     void FixedUpdate()
     {
        Move();
+       if (transform.position.y < -finish)
+        {
+            Debug.Log("You Win");
+            gameIsPaused = true;
+        }
     }
 
     void Move()
@@ -103,6 +111,23 @@ public class PlayerControl : MonoBehaviour
         {
             Debug.Log("Checkpoint");
             other.gameObject.SetActive(false);
+        }
+    }
+
+    void Update()
+    {
+        PauseGame();
+    }
+
+    void PauseGame ()
+    {
+        if(gameIsPaused)
+        {
+            Time.timeScale = 0f;
+        }
+        else 
+        {
+            Time.timeScale = 1;
         }
     }
 }
