@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 public class Database : MonoBehaviour
 {
     private string conn;
-    public InputField name;
+    public InputField firstname;
     public InputField lastname;
 
     void Start()
@@ -42,10 +42,10 @@ public class Database : MonoBehaviour
 
         using (SqlCommand command = new SqlCommand("INSERT INTO Player (name, lastname) VALUES (@name, @lastname)", dbconn))
         {
-            command.Parameters.AddWithValue("@name", name.text);
+            command.Parameters.AddWithValue("@name", firstname.text);
             command.Parameters.AddWithValue("@lastname", lastname.text);
             command.ExecuteNonQuery();
-            Debug.Log("Player " + name.text + " " + lastname.text + " added to database!");
+            Debug.Log("Player " + firstname.text + " " + lastname.text + " added to database!");
         }
 
         dbconn.Close();

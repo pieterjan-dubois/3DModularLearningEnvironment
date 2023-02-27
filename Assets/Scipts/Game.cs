@@ -11,7 +11,7 @@ public class Game : MonoBehaviour
     public Text PlayerText;
     public int score;
 
-    private string name;
+    private string firstname;
     private string lastname;
 
     private string conn;
@@ -70,10 +70,10 @@ public class Game : MonoBehaviour
             {
                 while (reader.Read())
                 {
-                    name = reader[1].ToString();
+                    firstname = reader[1].ToString();
                     lastname = reader[2].ToString();
-                    Debug.Log("Player: " + name + " " + lastname);
-                    PlayerText.text = "Player: " + name + " " + lastname;
+                    Debug.Log("Player: " + firstname + " " + lastname);
+                    PlayerText.text = "Player: " + firstname + " " + lastname;
                 }
             }
             
