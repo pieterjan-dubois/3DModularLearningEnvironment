@@ -58,23 +58,40 @@ public class Database : MonoBehaviour
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
 
+        //check if level table exists
+        using (SqlCommand command = new SqlCommand("SELECT * FROM sys.tables WHERE name = 'Level'", dbconn))
+        {
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (!reader.HasRows)
+                {
+                    Debug.Log("Level table does not exist, creating table...");
+                    CreateLevelTables(dbconn);
+
+
+                }
+            }
+        }
+
         List<CreatedObject.Data> createdObjects = level.createdObjects;
         List<FloorData.Data> floors = level.floors;
 
         //if level in database update, else add
-        using (SqlCommand commandSelect = new SqlCommand("SELECT * FROM Level WHERE name = @name", dbconn))
+        using (SqlCommand commandSelect = new SqlCommand("SELECT * FROM Level WHERE levelname = @levelname", dbconn))
         {
-            commandSelect.Parameters.AddWithValue("@name", name);
+            commandSelect.Parameters.AddWithValue("@levelname", name);
             using (SqlDataReader reader = commandSelect.ExecuteReader())
             {
                 if (reader.HasRows)
                 {
                     Debug.Log("Level " + name + " already exists in database, updating...");
                     //update level
-                    
+                    reader.Close();
+
                 }
                 else
                 {
+                    reader.Close();
                     Debug.Log("Level " + name + " does not exist in database, adding...");
                     //Save level
 
@@ -103,10 +120,10 @@ public class Database : MonoBehaviour
                     foreach (FloorData.Data floor in floors)
                     {
 
-                        Debug.Log("Path : " + floor.floorPlanPath);
-
-                        if (floor.floorPlanPath != null || floor.floorPlanPath != "")
+                        if (!string.IsNullOrEmpty(floor.floorPlanPath))
                         {
+                            Debug.Log("Path : " + floor.floorPlanPath);
+
                             using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorLevel, floorplan, level) VALUES (@floorLevel, @floorplan, @level)", dbconn))
                             {
                                 command.Parameters.AddWithValue("@floorLevel", floor.floorNumber);
@@ -132,8 +149,29 @@ public class Database : MonoBehaviour
 
         }
 
+        
+
 
 
         dbconn.Close();
+    }
+
+    void CreateLevelTables(SqlConnection dbconn)
+    {
+        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Level(LevelName VARCHAR (50) NOT NULL, TimeLimit INT NULL, CONSTRAINT PK_Level PRIMARY KEY CLUSTERED(LevelName ASC)", dbconn))
+        {
+            createTable.ExecuteNonQuery();
+        }
+
+        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Object(ObjectID INT IDENTITY (1, 1) NOT NULL,Type VARCHAR (50) NOT NULL, Position VARCHAR (50) NOT NULL,Rotation VARCHAR (50) NOT NULL,Scale VARCHAR (50) NOT NULL,Level    VARCHAR (50) NOT NULL,CONSTRAINT PK_Object PRIMARY KEY CLUSTERED ([ObjectID] ASC),CONSTRAINT FK_LevelName FOREIGN KEY (Level) REFERENCES Level (LevelName)", dbconn))
+        {
+            createTable.ExecuteNonQuery();
+        }
+        
+        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Floor (FloorLevel INT NOT NULL, Floorplan  VARCHAR (MAX) NULL,Level      VARCHAR (50)  NOT NULL, CONSTRAINT PK_Floor PRIMARY KEY CLUSTERED (FloorLevel ASC, Level ASC), CONSTRAINT FK_LevelNameFloor FOREIGN KEY (Level) REFERENCES Level (LevelName)", dbconn))
+        {
+            createTable.ExecuteNonQuery();
+        }
+
     }
 }

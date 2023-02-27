@@ -72,11 +72,6 @@ public class UIController : MonoBehaviour
         
         messagePanel.SetActive(false);
 
-        
-        OpenSaveMenu();
-        OpenLoadMenu();
-        CloseLoadMenu();
-
         allowInput = true;
     }
 
@@ -231,7 +226,14 @@ public class UIController : MonoBehaviour
         messagePanel.SetActive(true);
         message.text = "Level " + levelName + " succesvol geladen!";
         StartCoroutine(CloseMessagePanel());
+
+
+        OpenSaveMenu();
+
         saveNameInput.text = levelName;
+
+        CloseSaveMenu();
+
         activeLevel = levelName;
     }
 
