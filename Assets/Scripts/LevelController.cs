@@ -97,9 +97,13 @@ public class LevelController : MonoBehaviour
             CreateFromFile(); // create objects from level data.
 
             Debug.Log("Loading floors");
+
+            List<FloorData.Data> floors = level.floors;
+
+            foreach (FloorData.Data floor in floors)
+                GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(floor.floorNumber, floor.floorPlanPath);
             
-            foreach (FloorData floor in FindObjectsOfType<FloorData>())
-                GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(floor.data.floorNumber, floor.data.floorPlanPath);
+            GameObject.Find("Floors").GetComponent<FloorplanController>().ActivateGroundFloor();
 
             Debug.Log("Level loaded");
         }

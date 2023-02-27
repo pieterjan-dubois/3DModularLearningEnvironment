@@ -72,6 +72,11 @@ public class UIController : MonoBehaviour
         
         messagePanel.SetActive(false);
 
+        
+        OpenSaveMenu();
+        OpenLoadMenu();
+        CloseLoadMenu();
+
         allowInput = true;
     }
 
