@@ -68,6 +68,9 @@ public class EditorCameraController : MonoBehaviour
                 if (cam.orthographicSize > 0)
                 {
                     cam.orthographicSize -= 10;
+                } else
+                {
+                    cam.orthographicSize = 0;
                 }
 
             }

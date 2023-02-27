@@ -18,6 +18,8 @@ public class FloorplanController : MonoBehaviour
     private GameObject UI;
     private int clickCount = 0;
 
+    private List<Button> uploadButtons = new List<Button>();
+
     private int currentFloor;
 
     private Dictionary<int, GameObject> floorplans;
@@ -28,6 +30,7 @@ public class FloorplanController : MonoBehaviour
         floors = GameObject.Find("Floors");
         uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
         uploadButton.onClick.AddListener(Upload);
+        uploadButtons.Add(uploadButton);
         currentFloor = 0;
         currentFloorPlane = GameObject.Find("Ground");
 
@@ -220,6 +223,11 @@ public class FloorplanController : MonoBehaviour
             currentFloorPlane.transform.position = new Vector3(0, 3 * currentFloor, 0);
             floorplans.Add(currentFloor, currentFloorPlane);
 
+            uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
+            uploadButton.onClick.AddListener(Upload);
+
+            uploadButtons.Add(uploadButton);
+
             FloorData floorData = currentFloorPlane.AddComponent<FloorData>();
             floorData.data.floorNumber = currentFloor;
 
@@ -232,13 +240,11 @@ public class FloorplanController : MonoBehaviour
         }
         
         previousFloor.SetActive(false);
-        uploadButton.gameObject.SetActive(false);
-
         currentFloorPlane.SetActive(true);
-        uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
-        uploadButton.onClick.AddListener(Upload);
-        uploadButton.gameObject.SetActive(true);
 
+        uploadButton = uploadButtons[currentFloor];
+
+        UI.GetComponent<UIController>().messagePanel.SetActive(false);
         UI.GetComponent<UIController>().messagePanel.SetActive(true);
         UI.GetComponent<UIController>().message.text = "Niveau " + currentFloor;
         StartCoroutine(UI.GetComponent<UIController>().CloseMessagePanel());
@@ -246,6 +252,8 @@ public class FloorplanController : MonoBehaviour
 
 
     }
+
+
 
     public void ClearFloors()
     {
