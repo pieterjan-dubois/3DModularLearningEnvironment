@@ -5,6 +5,6 @@ using System;
 public class LevelEditor
 {
     public List<CreatedObject.Data> createdObjects; // new list of editor object data.
-    public string floorPlanPath;
+    public List<FloorData.Data> floors;
     //public int timeLimit;
 }

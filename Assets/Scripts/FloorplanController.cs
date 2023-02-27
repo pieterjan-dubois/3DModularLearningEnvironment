@@ -27,10 +27,15 @@ public class FloorplanController : MonoBehaviour
     {
         floors = GameObject.Find("Floors");
         uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
-        Debug.Log("Upload Button: " + uploadButton);
         uploadButton.onClick.AddListener(Upload);
         currentFloor = 0;
         currentFloorPlane = GameObject.Find("Ground");
+
+        FloorData floorData = currentFloorPlane.AddComponent<FloorData>();
+        floorData.data.floorNumber = currentFloor;
+
+        GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(floorData.data);
+
         floorplans = new Dictionary<int, GameObject>();
         floorplans.Add(0, currentFloorPlane);
 
@@ -59,7 +64,6 @@ public class FloorplanController : MonoBehaviour
                     if (Input.GetMouseButtonDown(0))
                     {
                         clickCount++;
-                        Debug.Log("Click Count: " + clickCount);
                         if (clickCount == 2)
                         {
                             uploadButton.gameObject.SetActive(!uploadButton.gameObject.activeSelf);
@@ -88,21 +92,20 @@ public class FloorplanController : MonoBehaviour
                 }
 
             }
+
+
         }
         else
         {
             uploadButton.gameObject.SetActive(false);
 
         }
-
     }
 
     void Upload()
     {
         // Open file explorer to select image file
         imagePath = UnityEditor.EditorUtility.OpenFilePanel("Select Image", "", "png,jpg,jpeg");
-
-        Debug.Log("Imagepath: " + imagePath);
 
         if (imagePath != "")
         {
@@ -115,12 +118,15 @@ public class FloorplanController : MonoBehaviour
             Material floorplan = new Material(Shader.Find("Standard"));
             floorplan.mainTexture = texture;
 
-            Debug.Log(currentFloorPlane);
             currentFloorPlane.GetComponent<MeshRenderer>().material = floorplan;
 
             uploadButton.gameObject.SetActive(false);
 
-            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floorPlanPath = imagePath;
+
+            currentFloorPlane.GetComponent<FloorData>().data.floorPlanPath = imagePath;
+
+            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Remove(currentFloorPlane.GetComponent<FloorData>().data);
+            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(currentFloorPlane.GetComponent<FloorData>().data);
 
 
             UI.GetComponent<UIController>().messagePanel.SetActive(true);
@@ -138,22 +144,59 @@ public class FloorplanController : MonoBehaviour
 
     }
 
-    public void LoadFloorplanFromSave(string imagePath, int floor)
+    public void LoadFloorplanFromSave(int floor, string imagePath)
     {
+
+        Debug.Log("Loading floorplan from save");
+
+        if (floor == 0)
+        {
+            Debug.Log("Adding ground floor");
+
+            currentFloorPlane = GameObject.Find("Ground");
+            floorplans.Add(0, currentFloorPlane);
+
+            FloorData floorData = currentFloorPlane.AddComponent<FloorData>();
+            floorData.data.floorNumber = floor;
+
+            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(floorData.data);
+
+        }
+        else
+        {
+            Debug.Log("Adding floor " + floor);
+
+            currentFloorPlane = Instantiate(floorPlane, floors.transform);
+            currentFloorPlane.name = "Floor " + currentFloor;
+            currentFloorPlane.transform.position = new Vector3(0, 3 * currentFloor, 0);
+            floorplans.Add(floor, currentFloorPlane);
+
+            FloorData floorData = currentFloorPlane.AddComponent<FloorData>();
+            floorData.data.floorNumber = floor;
+
+            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(floorData.data);
+        }
+
         if (imagePath != "")
         {
-            // Load image from file path
             byte[] imageData = File.ReadAllBytes(imagePath);
             Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(imageData);
 
+            Debug.Log("Loading Image");
+
             Material floorplan = new Material(Shader.Find("Standard"));
             floorplan.mainTexture = texture;
+
             currentFloorPlane.GetComponent<MeshRenderer>().material = floorplan;
 
-            uploadButton.gameObject.SetActive(false);
+            Debug.Log("Setting Material");
 
-            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floorPlanPath = imagePath;
+
+            currentFloorPlane.GetComponent<FloorData>().data.floorPlanPath = imagePath;
+
+            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Remove(currentFloorPlane.GetComponent<FloorData>().data);
+            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(currentFloorPlane.GetComponent<FloorData>().data);
 
 
         }
@@ -167,7 +210,6 @@ public class FloorplanController : MonoBehaviour
 
     void SwitchFloor()
     {
-        Debug.Log("Current Floor: " + currentFloorPlane);
         GameObject previousFloor = currentFloorPlane;
 
 
@@ -178,17 +220,51 @@ public class FloorplanController : MonoBehaviour
             currentFloorPlane.transform.position = new Vector3(0, 3 * currentFloor, 0);
             floorplans.Add(currentFloor, currentFloorPlane);
 
+            FloorData floorData = currentFloorPlane.AddComponent<FloorData>();
+            floorData.data.floorNumber = currentFloor;
+
+            GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(floorData.data);
+
         }
         else
         {
             currentFloorPlane = floorplans[currentFloor];
         }
-        currentFloorPlane.SetActive(true);
+        
         previousFloor.SetActive(false);
+        uploadButton.gameObject.SetActive(false);
+
+        currentFloorPlane.SetActive(true);
         uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
         uploadButton.onClick.AddListener(Upload);
-        /*uploadButton = currentFloorPlane.transform.Find("UploadButton").GetComponent<Button>();*/
+        uploadButton.gameObject.SetActive(true);
 
+        UI.GetComponent<UIController>().messagePanel.SetActive(true);
+        UI.GetComponent<UIController>().message.text = "Niveau " + currentFloor;
+        StartCoroutine(UI.GetComponent<UIController>().CloseMessagePanel());
+
+
+
+    }
+
+    public void ClearFloors()
+    {
+        foreach (KeyValuePair<int, GameObject> floor in floorplans)
+        {
+            if (floor.Key != 0)
+            {
+                Destroy(floor.Value);
+            }
+            else
+            {
+                floor.Value.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
+                floor.Value.GetComponent<FloorData>().data.floorPlanPath = "";
+            }
+        }
+
+        floorplans.Clear();
+
+        currentFloor = 0;
     }
 
 

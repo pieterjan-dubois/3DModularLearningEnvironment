@@ -38,8 +38,6 @@ public class LevelController : MonoBehaviour
 
         Debug.Log("Saving.");
 
-        Debug.Log("Level Floorplan: " + level.floorPlanPath);
-
 
         string json = JsonUtility.ToJson(level);
         string folder = UnityEngine.Application.dataPath + "/Saved/";
@@ -87,17 +85,21 @@ public class LevelController : MonoBehaviour
             foreach (CreatedObject obj in foundObjects)
                 Destroy(obj.gameObject);
 
+            GameObject.Find("Floors").GetComponent<FloorplanController>().ClearFloors();
+
             Debug.Log("Loading level.");
 
             string json = File.ReadAllText(path); // provide text from json file
             level = JsonUtility.FromJson<LevelEditor>(json); // level information filled from json file
 
-            GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(level.floorPlanPath, 0);
-            //Get PlacementController.timeLimit = level.timeLimit
-
             Debug.Log("Loading level..");
 
             CreateFromFile(); // create objects from level data.
+
+            Debug.Log("Loading floors");
+            
+            foreach (FloorData floor in FindObjectsOfType<FloorData>())
+                GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(floor.data.floorNumber, floor.data.floorPlanPath);
 
             Debug.Log("Level loaded");
         }
