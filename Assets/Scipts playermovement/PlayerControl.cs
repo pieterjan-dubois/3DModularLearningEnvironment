@@ -94,6 +94,9 @@ public class PlayerControl : MonoBehaviour
     {
         //Mouse lock
         //Cursor.lockState = CursorLockMode.Locked;
+        gameIsPaused = true;
+        PauseGame();
+        
     }
 
     void LateUpdate()
@@ -120,7 +123,7 @@ public class PlayerControl : MonoBehaviour
         PauseGame();
     }
 
-    void PauseGame ()
+    void PauseGame()
     {
         if(gameIsPaused)
         {
@@ -130,5 +133,10 @@ public class PlayerControl : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+    }
+
+    public void OnClickCheck()
+    {
+        gameIsPaused = false;
     }
 }
