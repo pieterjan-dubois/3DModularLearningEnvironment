@@ -6,11 +6,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 
-public class Database : MonoBehaviour
+public class EditorDatabase : MonoBehaviour
 {
     private string conn;
-    public InputField name;
-    public InputField lastname;
 
     void Start()
     {
@@ -34,22 +32,6 @@ public class Database : MonoBehaviour
         {
             dbconn.Close();
         }
-    }
-
-    public void AddPlayer()
-    {
-        SqlConnection dbconn = new SqlConnection(conn);
-        dbconn.Open();
-
-        using (SqlCommand command = new SqlCommand("INSERT INTO Player (name, lastname) VALUES (@name, @lastname)", dbconn))
-        {
-            command.Parameters.AddWithValue("@name", name.text);
-            command.Parameters.AddWithValue("@lastname", lastname.text);
-            command.ExecuteNonQuery();
-            Debug.Log("Player " + name.text + " " + lastname.text + " added to database!");
-        }
-
-        dbconn.Close();
     }
 
     public void SaveLevel(LevelEditor level, string name)
