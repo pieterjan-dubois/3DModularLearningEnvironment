@@ -67,7 +67,7 @@ public class PlayerControl : MonoBehaviour
 
     void Look()
     {
-        //turn
+        //turn 
         transform.Rotate(Vector3.up * look.x * sensitivity);
 
         //look

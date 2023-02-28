@@ -26,7 +26,6 @@ public class CountdownTimer : MonoBehaviour
         gameOverText.enabled = false;
     
         tryAgainBtn.gameObject.SetActive(false);
- 
     }
 
     // Update is called once per frame
@@ -41,8 +40,7 @@ public class CountdownTimer : MonoBehaviour
             currentTime = 0;
             currentScore = 0;
             gameOverText.enabled = true;
-            tryAgainBtn.gameObject.SetActive(true);
-            
+            tryAgainBtn.gameObject.SetActive(true);  
         }
     }
 
@@ -50,8 +48,5 @@ public class CountdownTimer : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("Reset the game");
-    }
-
-    
-    
+    }    
 }
