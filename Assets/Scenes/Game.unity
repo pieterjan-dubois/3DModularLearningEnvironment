@@ -2947,7 +2947,7 @@ MonoBehaviour:
     m_ActionId: 6c14d2b8-1469-4dca-a73b-3f0797293b0a
     m_ActionName: Player/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 303312676}
@@ -2969,7 +2969,7 @@ MonoBehaviour:
   sensitivity: 0.2
   maxForce: 1
   jumpForce: 1
-  grounded: 1
+  grounded: 0
   finish: 0
 --- !u!54 &1372965468
 Rigidbody:
