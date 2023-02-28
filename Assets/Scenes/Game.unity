@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1773,6 +1773,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1306389925}
+        m_TargetAssemblyTypeName: CloseNavigationHelp, Assembly-CSharp
+        m_MethodName: whenButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &745747876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2696,6 +2708,7 @@ GameObject:
   - component: {fileID: 1306389923}
   - component: {fileID: 1306389922}
   - component: {fileID: 1306389921}
+  - component: {fileID: 1306389925}
   m_Layer: 5
   m_Name: playertipsCanvas
   m_TagString: Untagged
@@ -2785,6 +2798,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1306389925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306389920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce92118520fe514f9d4d502c6729dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameobject: {fileID: 1125628166}
 --- !u!1 &1372965465
 GameObject:
   m_ObjectHideFlags: 0
@@ -2924,7 +2950,7 @@ MonoBehaviour:
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 303312676}
 --- !u!114 &1372965467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2934,17 +2960,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1372965465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c7db1c423b6c48909f1619425b64071, type: 3}
+  m_Script: {fileID: 11500000, guid: 12de21903e1aa4242b6ee1253fbd66d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1372965468}
   camHolder: {fileID: 510289310}
-  speed: 6
+  speed: 1
   sensitivity: 0.2
   maxForce: 1
-  jumpForce: 3
-  grounded: 0
-  finish: 1
+  jumpForce: 1
+  grounded: 1
+  finish: 0
 --- !u!54 &1372965468
 Rigidbody:
   m_ObjectHideFlags: 0
