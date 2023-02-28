@@ -49,4 +49,10 @@ public class CountdownTimer : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("Reset the game");
     }    
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("Menu");
+        Debug.Log("Load Main Menu");
+    }
 }
