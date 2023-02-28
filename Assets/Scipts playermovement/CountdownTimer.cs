@@ -46,8 +46,10 @@ public class CountdownTimer : MonoBehaviour
         }
     }
 
-    public void resetTheGame(){
+    public void resetTheGame()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("Reset the game");
     }
 
     
