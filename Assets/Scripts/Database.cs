@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 
 public class Database : MonoBehaviour
 {
@@ -88,6 +89,8 @@ public class Database : MonoBehaviour
                     //update level
                     reader.Close();
 
+                    Debug.Log("Cannot currently overwrite levels");
+
                 }
                 else
                 {
@@ -148,11 +151,7 @@ public class Database : MonoBehaviour
 
 
         }
-
         
-
-
-
         dbconn.Close();
     }
 
@@ -174,4 +173,92 @@ public class Database : MonoBehaviour
         }
 
     }
+
+    public LevelEditor LoadLevel(string name)
+    {
+        Debug.Log("Loading level " + name + " from database...");
+
+        LevelEditor level = new LevelEditor();
+        level.createdObjects = new List<CreatedObject.Data>();
+        level.floors = new List<FloorData.Data>();
+
+        SqlConnection dbconn = new SqlConnection(conn);
+        dbconn.Open();
+
+        using (SqlCommand command = new SqlCommand("SELECT * FROM Level WHERE levelname = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+
+                    reader.Close();
+
+                    // Load objects
+                    using (SqlCommand objCommand = new SqlCommand("SELECT * FROM Object WHERE level = @levelname", dbconn))
+                    {
+                        objCommand.Parameters.AddWithValue("@levelname", name);
+                        using (SqlDataReader objReader = objCommand.ExecuteReader())
+                        {
+                            while (objReader.Read())
+                            {
+                                CreatedObject.Data objData = new CreatedObject.Data();
+                                objData.tag = objReader.GetString(objReader.GetOrdinal("type"));
+                                objData.position = StringToVector3(objReader.GetString(objReader.GetOrdinal("position")));
+                                objData.rotation = StringToQuaternion(objReader.GetString(objReader.GetOrdinal("rotation")));
+                                objData.scale = StringToVector3(objReader.GetString(objReader.GetOrdinal("scale")));
+                                level.createdObjects.Add(objData);
+                            }
+                        }
+                    }
+
+                    // Load floors
+                    using (SqlCommand floorCommand = new SqlCommand("SELECT * FROM Floor WHERE level = @levelname", dbconn))
+                    {
+                        floorCommand.Parameters.AddWithValue("@levelname", name);
+                        using (SqlDataReader floorReader = floorCommand.ExecuteReader())
+                        {
+                            while (floorReader.Read())
+                            {
+                                FloorData.Data floorData = new FloorData.Data();
+                                floorData.floorNumber = floorReader.GetInt32(floorReader.GetOrdinal("floorLevel"));
+                                if (!floorReader.IsDBNull(floorReader.GetOrdinal("floorplan")))
+                                {
+                                    floorData.floorPlanPath = floorReader.GetString(floorReader.GetOrdinal("floorplan"));
+                                }
+                                level.floors.Add(floorData);
+                            }
+                        }
+                    }
+
+                    Debug.Log("Level " + name + " loaded from database.");
+                }
+                else
+                {
+                    Debug.Log("Level " + name + " does not exist in database.");
+                }
+            }
+        }
+
+        dbconn.Close();
+
+        return level;
+    }
+
+    private Vector3 StringToVector3(string s)
+    {
+        Debug.Log("StringToVector3 input: " + s);
+        string[] split = s.Trim(new char[] { '(', ')' }).Split(',');
+        Debug.Log("StringToVector3 split: " + split[0] + " " + split[1] + " " + split[2]);
+        return new Vector3(float.Parse(split[0], CultureInfo.InvariantCulture), float.Parse(split[1], CultureInfo.InvariantCulture), float.Parse(split[2], CultureInfo.InvariantCulture));
+    }
+
+
+    private Quaternion StringToQuaternion(string s)
+    {
+        string[] split = s.Trim(new char[] { '(', ')' }).Split(',');
+        return new Quaternion(float.Parse(split[0], CultureInfo.InvariantCulture), float.Parse(split[1], CultureInfo.InvariantCulture), float.Parse(split[2], CultureInfo.InvariantCulture), float.Parse(split[3], CultureInfo.InvariantCulture));
+    }
+
 }

@@ -75,7 +75,49 @@ public class LevelController : MonoBehaviour
     // Loading a level
     public void LoadLevel(string levelName)
     {
-        string folder = UnityEngine.Application.dataPath + "/Saved/";
+        Debug.Log("Loading level");
+
+        level = GetComponent<Database>().LoadLevel(levelName);
+
+        if (level == null)
+        {
+            UI.GetComponent<UIController>().messagePanel.SetActive(true);
+            UI.GetComponent<UIController>().message.text = "Level bestaat niet";
+            StartCoroutine(UI.GetComponent<UIController>().CloseMessagePanel());
+        }
+        else
+        {
+
+            Debug.Log("Loading level.");
+
+            CreatedObject[] foundObjects = FindObjectsOfType<CreatedObject>();
+            foreach (CreatedObject obj in foundObjects)
+                Destroy(obj.gameObject);
+
+            GameObject.Find("Floors").GetComponent<FloorplanController>().ClearFloors();
+
+            Debug.Log("Loading level..");
+
+
+            CreateFromFile(); // create objects from level data.
+
+            Debug.Log("Loading floors");
+
+            List<FloorData.Data> floors = level.floors;
+
+            Debug.Log("Loading level...");
+
+            foreach (FloorData.Data floor in floors)
+                GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(floor.floorNumber, floor.floorPlanPath);
+
+            GameObject.Find("Floors").GetComponent<FloorplanController>().ActivateGroundFloor();
+
+            Debug.Log("Level loaded");
+        }
+
+
+
+        /*string folder = UnityEngine.Application.dataPath + "/Saved/";
         string levelFile = levelName + ".json";
 
         string path = Path.Combine(folder, levelFile); // set filepath
@@ -106,7 +148,7 @@ public class LevelController : MonoBehaviour
 
             foreach (FloorData.Data floor in floors)
                 GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(floor.floorNumber, floor.floorPlanPath);
-            
+
             GameObject.Find("Floors").GetComponent<FloorplanController>().ActivateGroundFloor();
 
             Debug.Log("Level loaded");
@@ -117,7 +159,7 @@ public class LevelController : MonoBehaviour
             UI.GetComponent<UIController>().messagePanel.SetActive(true);
             UI.GetComponent<UIController>().message.text = "Level " + levelName + " bestaat niet!";
             StartCoroutine(UI.GetComponent<UIController>().CloseMessagePanel());
-        }
+        }*/
     }
 
     void CreateFromFile()

@@ -14,6 +14,8 @@ public class FloorplanController : MonoBehaviour
 
     private GameObject currentFloorPlane;
 
+    private GameObject ground;
+
     private string imagePath;
     private GameObject UI;
     private int clickCount = 0;
@@ -32,7 +34,8 @@ public class FloorplanController : MonoBehaviour
         uploadButton.onClick.AddListener(Upload);
         uploadButtons.Add(uploadButton);
         currentFloor = 0;
-        currentFloorPlane = GameObject.Find("Ground");
+        ground = GameObject.Find("Ground");
+        currentFloorPlane = ground;
 
         FloorData floorData = currentFloorPlane.AddComponent<FloorData>();
         floorData.data.floorNumber = currentFloor;
@@ -158,7 +161,7 @@ public class FloorplanController : MonoBehaviour
         {
             Debug.Log("Adding ground floor");
 
-            currentFloorPlane = GameObject.Find("Ground");
+            currentFloorPlane = ground;
             floorplans.Add(0, currentFloorPlane);
 
             FloorData floorData = currentFloorPlane.AddComponent<FloorData>();
@@ -272,7 +275,7 @@ public class FloorplanController : MonoBehaviour
             }
             else
             {
-                /*floor.Value.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));*/
+                floor.Value.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
                 floor.Value.GetComponent<FloorData>().data.floorPlanPath = "";
                 uploadButton = uploadButtons[0];
             }
@@ -286,7 +289,7 @@ public class FloorplanController : MonoBehaviour
 
     public void ActivateGroundFloor()
     {
-        currentFloorPlane = GameObject.Find("Ground");
+        currentFloorPlane = ground;
         currentFloorPlane.SetActive(true);
         currentFloor = 0;
         uploadButton = uploadButtons[0];
