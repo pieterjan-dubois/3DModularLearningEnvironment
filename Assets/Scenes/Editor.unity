@@ -2705,8 +2705,8 @@ GameObject:
   - component: {fileID: 983908375}
   - component: {fileID: 983908377}
   - component: {fileID: 983908378}
-  - component: {fileID: 983908379}
   - component: {fileID: 983908380}
+  - component: {fileID: 983908379}
   m_Layer: 0
   m_Name: Mouse
   m_TagString: Untagged
@@ -2828,11 +2828,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 983908374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 860423a0052d443f385e14d973cb9dc9, type: 3}
+  m_Script: {fileID: 11500000, guid: f0d3a5a420087454ba29ea8b0b720a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: {fileID: 0}
-  lastname: {fileID: 0}
 --- !u!1 &995231110
 GameObject:
   m_ObjectHideFlags: 0
