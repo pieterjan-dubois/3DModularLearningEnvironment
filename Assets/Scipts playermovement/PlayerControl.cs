@@ -106,14 +106,14 @@ public class PlayerControl : MonoBehaviour
         grounded = state;
     }
 
-    private void OnTriggerEnter(Collider other)
+    /* private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("CheckPoint")) 
         {
             Debug.Log("Checkpoint");
             other.gameObject.SetActive(false);
         }
-    }
+    } */
 
     void Update()
     {
