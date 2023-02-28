@@ -223,7 +223,7 @@ public class FloorplanController : MonoBehaviour
     void SwitchFloor()
     {
         GameObject previousFloor = currentFloorPlane;
-
+        uploadButton.gameObject.SetActive(false);
 
         if (!floorplans.ContainsKey(currentFloor))
         {
@@ -253,6 +253,7 @@ public class FloorplanController : MonoBehaviour
         currentFloorPlane.SetActive(true);
 
         uploadButton = uploadButtons[currentFloor];
+        uploadButton.gameObject.SetActive(true);
 
         UI.GetComponent<UIController>().messagePanel.SetActive(false);
         UI.GetComponent<UIController>().messagePanel.SetActive(true);
