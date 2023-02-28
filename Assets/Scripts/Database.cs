@@ -261,4 +261,30 @@ public class Database : MonoBehaviour
         return new Quaternion(float.Parse(split[0], CultureInfo.InvariantCulture), float.Parse(split[1], CultureInfo.InvariantCulture), float.Parse(split[2], CultureInfo.InvariantCulture), float.Parse(split[3], CultureInfo.InvariantCulture));
     }
 
+    public void DeleteLevel(string name)
+    {
+        SqlConnection dbconn = new SqlConnection(conn);
+        dbconn.Open();
+
+        using (SqlCommand command = new SqlCommand("DELETE FROM Object WHERE level = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
+
+        using (SqlCommand command = new SqlCommand("DELETE FROM Floor WHERE level = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
+
+        using (SqlCommand command = new SqlCommand("DELETE FROM Level WHERE levelname = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
+
+        dbconn.Close();
+    }
+
 }

@@ -249,6 +249,8 @@ public class UIController : MonoBehaviour
         AssetDatabase.Refresh();
         OpenLoadMenu();
 
+        mouse.GetComponent<Database>().DeleteLevel(levelName);
+
         messagePanel.SetActive(true);
         message.text = "Level " + levelName + " succesvol verwijderd!";
         StartCoroutine(CloseMessagePanel());
