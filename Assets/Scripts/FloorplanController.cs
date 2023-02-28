@@ -263,8 +263,6 @@ public class FloorplanController : MonoBehaviour
 
     }
 
-
-
     public void ClearFloors()
     {
         foreach (KeyValuePair<int, GameObject> floor in floorplans)

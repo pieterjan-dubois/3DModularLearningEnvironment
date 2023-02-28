@@ -39,12 +39,9 @@ public class EditorCameraController : MonoBehaviour
                 Mathf.Clamp(transform.position.y, 50, 50),
                 Mathf.Clamp(transform.position.z, -20, 20)); // limit camera movement to -20 min, 20 max. Y value remains 20.
 
-            //change camera's orthographic size to create zooming in and out. Can only be between -25 and -5.
-            if (cam.orthographicSize > 0)
-            {
-                cam.orthographicSize -= zoom;
-            }
-            
+            //change camera's orthographic size to create zooming in and out. Can only be between -50 and -5.
+            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - zoom, 5, 100);
+
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -65,13 +62,8 @@ public class EditorCameraController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.PageDown))
             {
-                if (cam.orthographicSize > 0)
-                {
-                    cam.orthographicSize -= 10;
-                } else
-                {
-                    cam.orthographicSize = 0;
-                }
+
+                cam.orthographicSize -= 10;
 
             }
 
