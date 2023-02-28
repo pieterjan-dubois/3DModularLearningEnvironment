@@ -204,7 +204,7 @@ public class UIController : MonoBehaviour
 
     List<string> GetLevels()
     {
-        string folder = UnityEngine.Application.dataPath + "/Saved/";
+        /*string folder = UnityEngine.Application.dataPath + "/Saved/";
         List<string> files = new List<string>(System.IO.Directory.GetFiles(folder, "*.json"));
 
         for (int i = 0; i < files.Count; i++)
@@ -212,6 +212,10 @@ public class UIController : MonoBehaviour
             files[i] = files[i].Replace(folder, "");
             files[i] = files[i].Replace(".json", "");
         }
+
+        return files;*/
+
+        List<string> files =  mouse.GetComponent<EditorDatabase>().GetLevels();
 
         return files;
 

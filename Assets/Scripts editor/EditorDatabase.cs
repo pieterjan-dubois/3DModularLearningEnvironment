@@ -277,4 +277,27 @@ public class EditorDatabase : MonoBehaviour
         }
     }
 
+    public List<string> GetLevels()
+    {
+        List<string> levels = new List<string>();
+
+        SqlConnection dbconn = new SqlConnection(conn);
+        dbconn.Open();
+
+        using (SqlCommand command = new SqlCommand("SELECT * FROM Level", dbconn))
+        {
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    levels.Add(reader.GetString(reader.GetOrdinal("levelname")));
+                }
+            }
+        }
+
+        dbconn.Close();
+
+        return levels;
+    }
+
 }
