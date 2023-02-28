@@ -190,7 +190,7 @@ public class FloorplanController : MonoBehaviour
             GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(floorData.data);
         }
 
-        if (imagePath != "")
+        if (!string.IsNullOrEmpty(imagePath))
         {
             byte[] imageData = File.ReadAllBytes(imagePath);
             Texture2D texture = new Texture2D(2, 2);

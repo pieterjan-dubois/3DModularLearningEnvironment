@@ -86,72 +86,71 @@ public class Database : MonoBehaviour
                 if (reader.HasRows)
                 {
                     Debug.Log("Level " + name + " already exists in database, updating...");
-                    //update level
+
                     reader.Close();
 
-                    Debug.Log("Cannot currently overwrite levels");
+                    DeleteLevel(name, dbconn);
 
                 }
-                else
-                {
-                    reader.Close();
-                    Debug.Log("Level " + name + " does not exist in database, adding...");
-                    //Save level
 
-                    using (SqlCommand command = new SqlCommand("INSERT INTO Level (levelname) VALUES (@levelname)", dbconn))
+
+                reader.Close();
+                //Save level
+
+                using (SqlCommand command = new SqlCommand("INSERT INTO Level (levelname) VALUES (@levelname)", dbconn))
+                {
+                    command.Parameters.AddWithValue("@levelname", name);
+                    command.ExecuteNonQuery();
+                }
+
+                //Save objects
+                foreach (CreatedObject.Data obj in createdObjects)
+                {
+                    using (SqlCommand command = new SqlCommand("INSERT INTO Object (type, position, rotation, scale, level) VALUES (@type, @position, @rotation, @scale, @level)", dbconn))
                     {
-                        command.Parameters.AddWithValue("@levelname", name);
+                        command.Parameters.AddWithValue("@type", obj.tag);
+                        command.Parameters.AddWithValue("@position", obj.position.ToString());
+                        command.Parameters.AddWithValue("@rotation", obj.rotation.ToString());
+                        command.Parameters.AddWithValue("@scale", obj.scale.ToString());
+                        command.Parameters.AddWithValue("@level", name);
                         command.ExecuteNonQuery();
                     }
+                }
 
-                    //Save objects
-                    foreach (CreatedObject.Data obj in createdObjects)
+                //Save floors
+
+                foreach (FloorData.Data floor in floors)
+                {
+
+                    if (!string.IsNullOrEmpty(floor.floorPlanPath))
                     {
-                        using (SqlCommand command = new SqlCommand("INSERT INTO Object (type, position, rotation, scale, level) VALUES (@type, @position, @rotation, @scale, @level)", dbconn))
+                        Debug.Log("Path : " + floor.floorPlanPath);
+
+                        using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorLevel, floorplan, level) VALUES (@floorLevel, @floorplan, @level)", dbconn))
                         {
-                            command.Parameters.AddWithValue("@type", obj.tag);
-                            command.Parameters.AddWithValue("@position", obj.position.ToString());
-                            command.Parameters.AddWithValue("@rotation", obj.rotation.ToString());
-                            command.Parameters.AddWithValue("@scale", obj.scale.ToString());
+                            command.Parameters.AddWithValue("@floorLevel", floor.floorNumber);
+                            command.Parameters.AddWithValue("@floorplan", floor.floorPlanPath);
+                            command.Parameters.AddWithValue("@level", name);
+                            command.ExecuteNonQuery();
+                        }
+
+                    }
+                    else
+                    {
+                        using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorLevel, level) VALUES (@floorLevel, @level)", dbconn))
+                        {
+                            command.Parameters.AddWithValue("@floorLevel", floor.floorNumber);
                             command.Parameters.AddWithValue("@level", name);
                             command.ExecuteNonQuery();
                         }
                     }
-
-                    //Save floors
-
-                    foreach (FloorData.Data floor in floors)
-                    {
-
-                        if (!string.IsNullOrEmpty(floor.floorPlanPath))
-                        {
-                            Debug.Log("Path : " + floor.floorPlanPath);
-
-                            using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorLevel, floorplan, level) VALUES (@floorLevel, @floorplan, @level)", dbconn))
-                            {
-                                command.Parameters.AddWithValue("@floorLevel", floor.floorNumber);
-                                command.Parameters.AddWithValue("@floorplan", floor.floorPlanPath);
-                                command.Parameters.AddWithValue("@level", name);
-                                command.ExecuteNonQuery();
-                            }
-
-                        }
-                        else
-                        {
-                            using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorLevel, level) VALUES (@floorLevel, @level)", dbconn))
-                            {
-                                command.Parameters.AddWithValue("@floorLevel", floor.floorNumber);
-                                command.Parameters.AddWithValue("@level", name);
-                                command.ExecuteNonQuery();
-                            }
-                        }
-                    }
                 }
+
             }
 
 
         }
-        
+
         dbconn.Close();
     }
 
@@ -162,12 +161,12 @@ public class Database : MonoBehaviour
             createTable.ExecuteNonQuery();
         }
 
-        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Object(ObjectID INT IDENTITY (1, 1) NOT NULL,Type VARCHAR (50) NOT NULL, Position VARCHAR (50) NOT NULL,Rotation VARCHAR (50) NOT NULL,Scale VARCHAR (50) NOT NULL,Level    VARCHAR (50) NOT NULL,CONSTRAINT PK_Object PRIMARY KEY CLUSTERED ([ObjectID] ASC),CONSTRAINT FK_LevelName FOREIGN KEY (Level) REFERENCES Level (LevelName)", dbconn))
+        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Object(ObjectID INT IDENTITY (1, 1) NOT NULL,Type VARCHAR (50) NOT NULL, Position VARCHAR (50) NOT NULL,Rotation VARCHAR (50) NOT NULL,Scale VARCHAR (50) NOT NULL,Level    VARCHAR (50) NOT NULL,CONSTRAINT PK_Object PRIMARY KEY CLUSTERED ([ObjectID] ASC),CONSTRAINT FK_LevelName FOREIGN KEY (Level) REFERENCES Level (LevelName) ON DELETE CASCADE;", dbconn))
         {
             createTable.ExecuteNonQuery();
         }
-        
-        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Floor (FloorLevel INT NOT NULL, Floorplan  VARCHAR (MAX) NULL,Level      VARCHAR (50)  NOT NULL, CONSTRAINT PK_Floor PRIMARY KEY CLUSTERED (FloorLevel ASC, Level ASC), CONSTRAINT FK_LevelNameFloor FOREIGN KEY (Level) REFERENCES Level (LevelName)", dbconn))
+
+        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Floor (FloorLevel INT NOT NULL, Floorplan  VARCHAR (MAX) NULL,Level      VARCHAR (50)  NOT NULL, CONSTRAINT PK_Floor PRIMARY KEY CLUSTERED (FloorLevel ASC, Level ASC), CONSTRAINT FK_LevelNameFloor FOREIGN KEY (Level) REFERENCES Level (LevelName) ON DELETE CASCADE;", dbconn))
         {
             createTable.ExecuteNonQuery();
         }
@@ -285,6 +284,15 @@ public class Database : MonoBehaviour
         }
 
         dbconn.Close();
+    }
+
+    public void DeleteLevel(string name, SqlConnection dbconn)
+    {
+        using (SqlCommand command = new SqlCommand("DELETE FROM Level WHERE levelname = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
     }
 
 }
