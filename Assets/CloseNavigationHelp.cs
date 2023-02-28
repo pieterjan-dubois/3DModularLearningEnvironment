@@ -11,5 +11,6 @@ public class CloseNavigationHelp : MonoBehaviour
     if(gameobject.activeInHierarchy == true){
         gameobject.SetActive(false);
    }
+   //wtf
    }
 }
