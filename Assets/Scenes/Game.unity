@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -349,6 +349,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90f4733e9e645640813d10be1161ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxTimeAllowed: 20
+  minTimeRequired: 5
+  timeTaken: 0
+  scorePercent: 0
   countdownText: {fileID: 967707733}
   gameOverText: {fileID: 592452125}
   scoreText: {fileID: 1020041140}
@@ -2327,8 +2331,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 8, y: -34.158905}
-  m_SizeDelta: {x: -227.2751, y: -152.7377}
+  m_AnchoredPosition: {x: 26, y: -27}
+  m_SizeDelta: {x: -149.7495, y: -135.8843}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1125628168
 MonoBehaviour:
