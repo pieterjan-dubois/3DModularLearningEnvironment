@@ -264,6 +264,7 @@ public class PlacementController : MonoBehaviour
                 newObjData.data.tag = newObj.tag;
 
                 level.createdObjects.Add(newObjData.data);
+
             }
         }
 
@@ -424,6 +425,12 @@ public class PlacementController : MonoBehaviour
             heightForText = 0;
 
         }
+        else if (currentPlaceableObject.tag == "Spawnpoint")
+        {
+            height = 0.5f;
+            initialHeight = 0.5f;
+            heightForText = 0;
+        }
         else
         {
             height = 1.5f;
@@ -447,9 +454,9 @@ public class PlacementController : MonoBehaviour
         if (selectedObject != null)
         {
             selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
-            if (currentPlaceableObject.tag == "Stairs")
+            if (selectedObject.tag == "Stairs")
             {
-                foreach (Transform child in currentPlaceableObject.transform)
+                foreach (Transform child in selectedObject.transform)
                 {
                     child.GetComponent<MeshRenderer>().material = selectedObject.GetComponent<MeshRenderer>().material;
                 }
@@ -461,7 +468,7 @@ public class PlacementController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs")
+            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs")
             {
 
                 if (hit.transform.gameObject.transform.parent != null)
@@ -482,37 +489,43 @@ public class PlacementController : MonoBehaviour
                 selectedObject.GetComponent<MeshRenderer>().material = selectedMaterial;
                 currentPlaceableObject = selectedObject;
 
-                if (currentPlaceableObject.tag == "Stairs")
+                if (selectedObject.tag == "Floor")
                 {
-                    foreach (Transform child in currentPlaceableObject.transform)
+                    height = selectedObject.transform.position.y;
+                    initialHeight = 0f;
+                    heightForText = selectedObject.transform.position.y;
+
+                }
+                if (selectedObject.tag == "WallPart")
+                {
+                    height = selectedObject.transform.position.y;
+                    initialHeight = 0.25f;
+                    heightForText = selectedObject.transform.position.y - 0.25f;
+
+                }
+                if (selectedObject.tag == "Spawnpoint")
+                {
+                    height = selectedObject.transform.position.y;
+                    initialHeight = 0.5f;
+                    heightForText = selectedObject.transform.position.y - 0.5f;
+                }
+                if (selectedObject.tag == "Stairs")
+                {
+                    foreach (Transform child in selectedObject.transform)
                     {
                         child.GetComponent<MeshRenderer>().material = selectedObject.GetComponent<MeshRenderer>().material;
                     }
 
-                    height = currentPlaceableObject.transform.position.y;
+                    height = selectedObject.transform.position.y;
                     initialHeight = 0.3f;
-                    heightForText = currentPlaceableObject.transform.position.y + 2.7f;
+                    heightForText = selectedObject.transform.position.y - 0.3f;
                 }
-
-                if (currentPlaceableObject.tag == "Floor")
+                if (selectedObject.tag == "Wall")
                 {
-                    height = currentPlaceableObject.transform.position.y;
-                    initialHeight = 0f;
-                    heightForText = currentPlaceableObject.transform.position.y;
 
-                }
-                else if (currentPlaceableObject.tag == "WallPart")
-                {
-                    height = currentPlaceableObject.transform.position.y;
-                    initialHeight = 0.25f;
-                    heightForText = currentPlaceableObject.transform.position.y - 0.25f;
-
-                }
-                else
-                {
-                    height = currentPlaceableObject.transform.position.y;
+                    height = selectedObject.transform.position.y;
                     initialHeight = 1.5f;
-                    heightForText = currentPlaceableObject.transform.position.y - 1.5f;
+                    heightForText = selectedObject.transform.position.y - 1.5f;
 
                 }
 

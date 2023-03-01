@@ -9,6 +9,7 @@ TagManager:
   - WallPart
   - CheckPoint
   - Stairs
+  - Spawnpoint
   layers:
   - Default
   - TransparentFX
