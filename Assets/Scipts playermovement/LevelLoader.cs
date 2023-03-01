@@ -67,7 +67,7 @@ public class LevelLoader : MonoBehaviour
             {
                 if (placeableObjectPrefabs[i].tag == data.tag)
                 {
-                    Debug.Log("Creating object..");
+                    Debug.Log("Creating object " + data.tag);
                     GameObject obj = Instantiate(placeableObjectPrefabs[i], data.position, data.rotation);
                     obj.transform.localScale = data.scale;
 

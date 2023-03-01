@@ -2605,6 +2605,7 @@ MonoBehaviour:
   - {fileID: 8544633097445549815, guid: 6b8d3a13502ab6b428f0d033ea82d8db, type: 3}
   - {fileID: 8166981330466387127, guid: c2fc1fb3cc8b79f4a856722d72249927, type: 3}
   - {fileID: 8544633097445549815, guid: 07ec76aa1f1b5b745ba4581be339769c, type: 3}
+  - {fileID: 308483552022518720, guid: a051b923a8916e34c8e0f19973df7faa, type: 3}
 --- !u!114 &1706903793
 MonoBehaviour:
   m_ObjectHideFlags: 0
