@@ -2730,6 +2730,7 @@ MonoBehaviour:
   - {fileID: 8544633097445549815, guid: 6b8d3a13502ab6b428f0d033ea82d8db, type: 3}
   - {fileID: 8166981330466387127, guid: c2fc1fb3cc8b79f4a856722d72249927, type: 3}
   - {fileID: 8544633097445549815, guid: 07ec76aa1f1b5b745ba4581be339769c, type: 3}
+  - {fileID: 308483552022518720, guid: a051b923a8916e34c8e0f19973df7faa, type: 3}
   placing: {fileID: 2100000, guid: 5a51c9f7f9a219c4a86298815f6f65e5, type: 2}
   selectedMaterial: {fileID: 2100000, guid: ea599227dded00f40b7f89c0f719bf39, type: 2}
   gridSize: 0.5
@@ -2818,7 +2819,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b58d83a424d9b0045b324f80e38cc0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conn: 
 --- !u!114 &983908380
 MonoBehaviour:
   m_ObjectHideFlags: 0

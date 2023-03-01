@@ -109,7 +109,7 @@ public class PlacementController : MonoBehaviour
             }
 
 
-            if (selectedObject == null && currentPlaceableObject != null)
+            if (currentPlaceableObject != null)
             {
 
 
@@ -190,16 +190,6 @@ public class PlacementController : MonoBehaviour
                 IncreaseLength();
             }
 
-            if (selectedObject != null)
-            {
-                /*heightPlusButton.interactable = false;
-                heightMinusButton.interactable = false;
-                heightText.text = "Hoogte";*/
-
-                selectedObject.transform.position = new Vector3(selectedObject.transform.position.x, height, selectedObject.transform.position.z);
-
-            }
-
         }
 
         heightPlusButton.interactable = UI.GetComponent<UIController>().allowInput;
@@ -258,6 +248,14 @@ public class PlacementController : MonoBehaviour
             {
                 GameObject newObj = Instantiate(currentPlaceableObject);
                 newObj.GetComponent<MeshRenderer>().material = objectMaterial;
+
+                if (currentPlaceableObject.tag == "Stairs")
+                {
+                    foreach (Transform child in newObj.transform)
+                    {
+                        child.GetComponent<MeshRenderer>().material = newObj.GetComponent<MeshRenderer>().material;
+                    }
+                }
 
                 CreatedObject newObjData = newObj.AddComponent<CreatedObject>();
                 newObjData.data.position = newObj.transform.position;
@@ -376,6 +374,15 @@ public class PlacementController : MonoBehaviour
         if (selectedObject != null)
         {
             selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
+
+            if (currentPlaceableObject.tag == "Stairs")
+            {
+                foreach (Transform child in currentPlaceableObject.transform)
+                {
+                    child.GetComponent<MeshRenderer>().material = selectedObject.GetComponent<MeshRenderer>().material;
+                }
+            }
+
             selectedObject = null;
         }
 
@@ -391,6 +398,7 @@ public class PlacementController : MonoBehaviour
 
         if (currentPlaceableObject.tag == "Floor")
         {
+
             height = 0;
             initialHeight = 0;
             heightForText = 0;
@@ -400,6 +408,19 @@ public class PlacementController : MonoBehaviour
         {
             height = 0.25f;
             initialHeight = 0.25f;
+            heightForText = 0;
+
+        }
+        else if (currentPlaceableObject.tag == "Stairs")
+        {
+            foreach (Transform child in currentPlaceableObject.transform)
+            {
+                child.GetComponent<MeshRenderer>().material = currentPlaceableObject.GetComponent<MeshRenderer>().material;
+            }
+
+
+            height = 0.3f;
+            initialHeight = 0.3f;
             heightForText = 0;
 
         }
@@ -426,6 +447,13 @@ public class PlacementController : MonoBehaviour
         if (selectedObject != null)
         {
             selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
+            if (currentPlaceableObject.tag == "Stairs")
+            {
+                foreach (Transform child in currentPlaceableObject.transform)
+                {
+                    child.GetComponent<MeshRenderer>().material = selectedObject.GetComponent<MeshRenderer>().material;
+                }
+            }
             selectedObject = null;
             currentPlaceableObject = null;
             heightText.text = "Hoogte";
@@ -433,13 +461,38 @@ public class PlacementController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall")
+            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs")
             {
 
-                selectedObject = hit.transform.gameObject;
+                if (hit.transform.gameObject.transform.parent != null)
+                {
+                    
+                    if (hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs")
+                    {
+                        selectedObject = hit.transform.gameObject.transform.parent.gameObject;
+                    }
+
+                }
+                else
+                {
+                    selectedObject = hit.transform.gameObject;
+                }
+                
                 objectMaterial = selectedObject.GetComponent<MeshRenderer>().material;
                 selectedObject.GetComponent<MeshRenderer>().material = selectedMaterial;
                 currentPlaceableObject = selectedObject;
+
+                if (currentPlaceableObject.tag == "Stairs")
+                {
+                    foreach (Transform child in currentPlaceableObject.transform)
+                    {
+                        child.GetComponent<MeshRenderer>().material = selectedObject.GetComponent<MeshRenderer>().material;
+                    }
+
+                    height = currentPlaceableObject.transform.position.y;
+                    initialHeight = 0.3f;
+                    heightForText = currentPlaceableObject.transform.position.y + 2.7f;
+                }
 
                 if (currentPlaceableObject.tag == "Floor")
                 {
