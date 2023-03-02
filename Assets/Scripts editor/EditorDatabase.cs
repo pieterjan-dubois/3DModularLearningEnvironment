@@ -138,7 +138,7 @@ public class EditorDatabase : MonoBehaviour
 
     void CreateLevelTables(SqlConnection dbconn)
     {
-        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Level(LevelName VARCHAR (50) NOT NULL, TimeLimit INT NULL, CONSTRAINT PK_Level PRIMARY KEY CLUSTERED(LevelName ASC)", dbconn))
+        using (SqlCommand createTable = new SqlCommand("CREATE TABLE Level(LevelName VARCHAR (50) NOT NULL, TimeLimit INT NULL, MinTime INT NULL, CONSTRAINT PK_Level PRIMARY KEY CLUSTERED(LevelName ASC)", dbconn))
         {
             createTable.ExecuteNonQuery();
         }
@@ -299,6 +299,14 @@ public class EditorDatabase : MonoBehaviour
         dbconn.Close();
 
         return levels;
+    }
+
+    public void addTimers()
+    {
+        Debug.Log("Adding time to database...");
+        //Debug.Log("Max time: " + maxTime, "Min time: " + minTime);
+        SqlConnection dbconn = new SqlConnection(conn);
+        dbconn.Open();
     }
 
 }
