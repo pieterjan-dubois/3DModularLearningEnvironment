@@ -94,8 +94,8 @@ public class PlayerControl : MonoBehaviour
     {
         //Mouse lock
         //Cursor.lockState = CursorLockMode.Locked;
-        gameIsPaused = true;
-        PauseGame();
+        /*gameIsPaused = true;
+        PauseGame();*/
         
     }
 

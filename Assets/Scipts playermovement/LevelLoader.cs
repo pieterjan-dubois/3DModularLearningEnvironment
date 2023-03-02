@@ -14,9 +14,8 @@ public class LevelLoader : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {   
-        loadLevel = GameObject.Find("LoadButton").GetComponent<Button>();
-        loadLevel.onClick.AddListener(LoadLevel);
+    {
+
     }
 
     // Update is called once per frame
@@ -25,7 +24,7 @@ public class LevelLoader : MonoBehaviour
         
     }
 
-    void LoadLevel()
+    public void LoadLevel()
     {
         /*activeLevel = PlayerPrefs.GetString("activeLevel");*/
 
@@ -65,7 +64,7 @@ public class LevelLoader : MonoBehaviour
                     if (data.tag == "Spawnpoint")
                     {
                         GameObject.Find("Player").GetComponent<SpawnManager>().SetSpawnPoint(obj.transform);
-                        obj.SetActive(false);
+                        /*obj.SetActive(false);*/
                     }
 
                 }

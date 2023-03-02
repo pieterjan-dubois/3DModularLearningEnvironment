@@ -163,6 +163,7 @@ public class EditorDatabase : MonoBehaviour
         level.createdObjects = new List<CreatedObject.Data>();
         level.floors = new List<FloorData.Data>();
 
+        conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=testdb;";
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
 

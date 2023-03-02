@@ -23,6 +23,10 @@ public class SpawnManager : MonoBehaviour
         Debug.Log("Spawn Point Index: " + spawnPointIndex);
         Transform spawnPoint = spawnPoints[spawnPointIndex];
         Debug.Log("Spawned at " + spawnPoint.name);*/
+        if (spawnpoint == null)
+        {
+            spawnpoint = player.transform;
+        }
         player.transform.position = spawnpoint.position;
     }
 
