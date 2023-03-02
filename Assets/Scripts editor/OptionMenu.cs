@@ -10,12 +10,10 @@ public class OptionMenu : MonoBehaviour
     public InputField maxTime;
     public InputField minTime;
 
-    EditorDatabase editor;
-
     public void addTimer()
     {
         Debug.Log("Max time: " + maxTime.text);
         Debug.Log("Min time: " + minTime.text);
-        GetComponent<EditorDatabase>().addTimers();
+        GetComponent<EditorDatabase>().addTimers(int.Parse(maxTime.text), int.Parse(minTime.text));
     } 
 }

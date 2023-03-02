@@ -301,12 +301,20 @@ public class EditorDatabase : MonoBehaviour
         return levels;
     }
 
-    public void addTimers()
+    public void addTimers(int maxTime, int minTime)
     {
         Debug.Log("Adding time to database...");
-        //Debug.Log("Max time: " + maxTime, "Min time: " + minTime);
+        Debug.Log("Max time: " + maxTime + "Min time: " + minTime);
+
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
+
+        using (SqlCommand command = new SqlCommand("UPDATE level SET TimeLimit = @maxTime, MinTime = @minTime", dbconn))
+        {
+            command.Parameters.AddWithValue("@maxTime", maxTime);
+            command.Parameters.AddWithValue("@minTime", minTime);
+            command.ExecuteNonQuery();
+        }
     }
 
 }
