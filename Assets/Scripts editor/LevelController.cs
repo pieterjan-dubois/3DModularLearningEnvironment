@@ -78,6 +78,7 @@ public class LevelController : MonoBehaviour
         Debug.Log("Loading level");
 
         level = GetComponent<EditorDatabase>().LoadLevel(levelName);
+        
 
         if (level == null)
         {
@@ -87,7 +88,7 @@ public class LevelController : MonoBehaviour
         }
         else
         {
-
+            
             Debug.Log("Loading level.");
 
             CreatedObject[] foundObjects = FindObjectsOfType<CreatedObject>();
@@ -111,6 +112,8 @@ public class LevelController : MonoBehaviour
                 GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(floor.floorNumber, floor.floorPlanPath);
 
             GameObject.Find("Floors").GetComponent<FloorplanController>().ActivateGroundFloor();
+
+            GetComponent<PlacementController>().level = level;
 
             Debug.Log("Level loaded");
         }
