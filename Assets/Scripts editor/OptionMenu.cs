@@ -16,6 +16,6 @@ public class OptionMenu : MonoBehaviour
     {
         Debug.Log("Max time: " + maxTime.text);
         Debug.Log("Min time: " + minTime.text);
-        editor.addTimers();
+        GetComponent<EditorDatabase>().addTimers();
     } 
 }
