@@ -5,26 +5,31 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject player;
-    public Transform[] spawnPoints;
+    /*public List<Transform> spawnPoints;*/
 
-    private bool hasSpawned = false;
+    public Transform spawnpoint;
+
     
     void Start()
     {
-        if (!hasSpawned)
-        {
-            SpawnPlayer();
-            hasSpawned = true;
-            Debug.Log("Spawned Player is true");
-        }
+
     }
 
-    private void SpawnPlayer()
+    public void SpawnPlayer()
     {
-        int spawnPointIndex = Random.Range(0, spawnPoints.Length);
+        //Code voor meerdere spawnpoints
+
+        /*int spawnPointIndex = Random.Range(0, spawnPoints.Count);
         Debug.Log("Spawn Point Index: " + spawnPointIndex);
         Transform spawnPoint = spawnPoints[spawnPointIndex];
-        Debug.Log("Spawned at " + spawnPoint.name);
-        player.transform.position = spawnPoint.position;
+        Debug.Log("Spawned at " + spawnPoint.name);*/
+        player.transform.position = spawnpoint.position;
+    }
+
+    public void SetSpawnPoint(Transform spawnPoint)
+    {
+        /*spawnPoints.Add(spawnPoint);*/
+
+        spawnpoint = spawnPoint;
     }
 }

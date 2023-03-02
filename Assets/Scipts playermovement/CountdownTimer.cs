@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class CountdownTimer : MonoBehaviour
 {
     float currentTime = 0f;
-    float startingTime = 20f;
+    float startingTime = 200f;
     float startingScore = 100f;
     float currentScore = 0f; 
 

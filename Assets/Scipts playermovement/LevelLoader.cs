@@ -40,20 +40,8 @@ public class LevelLoader : MonoBehaviour
         else
         {
 
-            CreateFromFile(); // create objects from level data.
-
-            /*Debug.Log("Loading floors");
-
-            List<FloorData.Data> floors = level.floors;
-
-            Debug.Log("Loading level...");
-
-            foreach (FloorData.Data floor in floors)
-                GameObject.Find("Floors").GetComponent<FloorplanController>().LoadFloorplanFromSave(floor.floorNumber, floor.floorPlanPath);
-
-            GameObject.Find("Floors").GetComponent<FloorplanController>().ActivateGroundFloor();
-
-            Debug.Log("Level loaded");*/
+            CreateFromFile();
+            GameObject.Find("Player").GetComponent<SpawnManager>().SpawnPlayer();
         }
 
     }
@@ -74,8 +62,15 @@ public class LevelLoader : MonoBehaviour
                     CreatedObject newObjData = obj.AddComponent<CreatedObject>();
                     newObjData.data = data;
 
+                    if (data.tag == "Spawnpoint")
+                    {
+                        GameObject.Find("Player").GetComponent<SpawnManager>().SetSpawnPoint(obj.transform);
+                        obj.SetActive(false);
+                    }
+
                 }
             }
+            
         }
     }
 }

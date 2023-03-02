@@ -246,6 +246,15 @@ public class PlacementController : MonoBehaviour
         {
             if (currentPlaceableObject != null)
             {
+                if (currentPlaceableObject.tag == "Spawnpoint")
+                {
+                   if (GameObject.FindGameObjectsWithTag("Spawnpoint").Length > 1)
+                    {
+                        return;
+                    }
+                }
+
+
                 GameObject newObj = Instantiate(currentPlaceableObject);
                 newObj.GetComponent<MeshRenderer>().material = objectMaterial;
 
@@ -473,7 +482,7 @@ public class PlacementController : MonoBehaviour
 
                 if (hit.transform.gameObject.transform.parent != null)
                 {
-                    
+
                     if (hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs")
                     {
                         selectedObject = hit.transform.gameObject.transform.parent.gameObject;
@@ -484,7 +493,7 @@ public class PlacementController : MonoBehaviour
                 {
                     selectedObject = hit.transform.gameObject;
                 }
-                
+
                 objectMaterial = selectedObject.GetComponent<MeshRenderer>().material;
                 selectedObject.GetComponent<MeshRenderer>().material = selectedMaterial;
                 currentPlaceableObject = selectedObject;
