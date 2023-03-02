@@ -258,7 +258,7 @@ public class PlacementController : MonoBehaviour
                 GameObject newObj = Instantiate(currentPlaceableObject);
                 newObj.GetComponent<MeshRenderer>().material = objectMaterial;
 
-                if (currentPlaceableObject.tag == "Stairs")
+                if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "Doors")
                 {
                     foreach (Transform child in newObj.transform)
                     {
@@ -385,7 +385,7 @@ public class PlacementController : MonoBehaviour
         {
             selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
 
-            if (currentPlaceableObject.tag == "Stairs")
+            if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "Doors")
             {
                 foreach (Transform child in currentPlaceableObject.transform)
                 {
@@ -421,7 +421,7 @@ public class PlacementController : MonoBehaviour
             heightForText = 0;
 
         }
-        else if (currentPlaceableObject.tag == "Stairs")
+        else if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "Doors")
         {
             foreach (Transform child in currentPlaceableObject.transform)
             {
@@ -463,7 +463,7 @@ public class PlacementController : MonoBehaviour
         if (selectedObject != null)
         {
             selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
-            if (selectedObject.tag == "Stairs")
+            if (selectedObject.tag == "Stairs" ||selectedObject.tag == "Doors")
             {
                 foreach (Transform child in selectedObject.transform)
                 {
@@ -477,13 +477,13 @@ public class PlacementController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs")
+            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" |||| hit.transform.gameObject.transform.parent.gameObject.tag == "Doors" )
             {
 
                 if (hit.transform.gameObject.transform.parent != null)
                 {
 
-                    if (hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs")
+                    if (hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "Doors")
                     {
                         selectedObject = hit.transform.gameObject.transform.parent.gameObject;
                     }
@@ -518,7 +518,7 @@ public class PlacementController : MonoBehaviour
                     initialHeight = 0.5f;
                     heightForText = selectedObject.transform.position.y - 0.5f;
                 }
-                if (selectedObject.tag == "Stairs")
+                if (selectedObject.tag == "Stairs" ||selectedObject.tag == "Doors")
                 {
                     foreach (Transform child in selectedObject.transform)
                     {
