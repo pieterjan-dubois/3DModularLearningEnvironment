@@ -64,7 +64,7 @@ public class LevelLoader : MonoBehaviour
                     if (data.tag == "Spawnpoint")
                     {
                         GameObject.Find("Player").GetComponent<SpawnManager>().SetSpawnPoint(obj.transform);
-                        /*obj.SetActive(false);*/
+                        obj.SetActive(false);
                     }
 
                 }
