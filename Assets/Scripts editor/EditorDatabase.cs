@@ -181,7 +181,7 @@ public class EditorDatabase : MonoBehaviour
                     reader.Close();
 
                     // Call AddTimers function here using the maxTime and minTime values
-                    CountdownTimer countdown = GameObject.FindObjectOfType<CountdownTimer>();
+                    CountdownTimer countdown = GameObject.Find("ScoreCanvas").GetComponent<CountdownTimer>();
                     if (countdown != null)
                     {
                         countdown.setTimers(maxTime, minTime);
