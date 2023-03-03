@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class DropdownHandler : MonoBehaviour
 {
+    public string value;
+
     // Start is called before the first frame update
     void Start()
     {
         var dropdown = transform.GetComponent<Dropdown>();
-        dropdown.options.Clear();
 
         List<string> levels = new List<string>();
         levels.Add("Level 1");
@@ -41,6 +42,12 @@ public class DropdownHandler : MonoBehaviour
 
     public void DropdownValueChanged(Dropdown change)
     {
-        Debug.Log("Selected: " + change.value);
+        value = change.options[change.value].text.ToString();
+        Debug.Log("Selected: " + value);
+    }
+
+    public string getValue()
+    {
+        return value;
     }
 }
