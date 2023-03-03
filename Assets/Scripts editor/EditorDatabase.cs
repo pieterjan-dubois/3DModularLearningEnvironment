@@ -13,7 +13,7 @@ public class EditorDatabase : MonoBehaviour
     void Start()
     {
         Debug.Log("Connecting to database...");
-        conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=testdb;";
+        conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=3D_Modular_Gaming_Tool;";
 
         //SqlClient dbconn = new SqlClient(conn);
         SqlConnection dbconn = new SqlConnection(conn);
@@ -42,7 +42,7 @@ public class EditorDatabase : MonoBehaviour
         dbconn.Open();
 
         //check if level table exists
-        using (SqlCommand command = new SqlCommand("SELECT * FROM sys.tables WHERE name = 'Level'", dbconn))
+        /*using (SqlCommand command = new SqlCommand("SELECT * FROM sys.tables WHERE name = 'Level'", dbconn))
         {
             using (SqlDataReader reader = command.ExecuteReader())
             {
@@ -54,7 +54,7 @@ public class EditorDatabase : MonoBehaviour
 
                 }
             }
-        }
+        }*/
 
         List<CreatedObject.Data> createdObjects = level.createdObjects;
         List<FloorData.Data> floors = level.floors;
@@ -108,9 +108,9 @@ public class EditorDatabase : MonoBehaviour
                     {
                         Debug.Log("Path : " + floor.floorPlanPath);
 
-                        using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorLevel, floorplan, level) VALUES (@floorLevel, @floorplan, @level)", dbconn))
+                        using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorNumber, floorplan, level) VALUES (@floorNumber, @floorplan, @level)", dbconn))
                         {
-                            command.Parameters.AddWithValue("@floorLevel", floor.floorNumber);
+                            command.Parameters.AddWithValue("@floorNumber", floor.floorNumber);
                             command.Parameters.AddWithValue("@floorplan", floor.floorPlanPath);
                             command.Parameters.AddWithValue("@level", name);
                             command.ExecuteNonQuery();
@@ -136,7 +136,7 @@ public class EditorDatabase : MonoBehaviour
         dbconn.Close();
     }
 
-    void CreateLevelTables(SqlConnection dbconn)
+    /*void CreateLevelTables(SqlConnection dbconn)
     {
         using (SqlCommand createTable = new SqlCommand("CREATE TABLE Level(LevelName VARCHAR (50) NOT NULL, TimeLimit INT NULL, MinTime INT NULL, CONSTRAINT PK_Level PRIMARY KEY CLUSTERED(LevelName ASC)", dbconn))
         {
@@ -153,7 +153,7 @@ public class EditorDatabase : MonoBehaviour
             createTable.ExecuteNonQuery();
         }
 
-    }
+    }*/
 
     public LevelEditor LoadLevel(string name)
     {
@@ -162,8 +162,7 @@ public class EditorDatabase : MonoBehaviour
         LevelEditor level = new LevelEditor();
         level.createdObjects = new List<CreatedObject.Data>();
         level.floors = new List<FloorData.Data>();
-
-        conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=testdb;";
+        
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
 
@@ -204,7 +203,7 @@ public class EditorDatabase : MonoBehaviour
                             while (floorReader.Read())
                             {
                                 FloorData.Data floorData = new FloorData.Data();
-                                floorData.floorNumber = floorReader.GetInt32(floorReader.GetOrdinal("floorLevel"));
+                                floorData.floorNumber = floorReader.GetInt32(floorReader.GetOrdinal("floorNumber"));
                                 if (!floorReader.IsDBNull(floorReader.GetOrdinal("floorplan")))
                                 {
                                     floorData.floorPlanPath = floorReader.GetString(floorReader.GetOrdinal("floorplan"));

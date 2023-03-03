@@ -14,7 +14,7 @@ public class Database : MonoBehaviour
     void Start()
     {
         Debug.Log("Connecting to database...");
-        conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=testdb;";
+        conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=3D_Modular_Gaming_Tool;";
 
         //SqlClient dbconn = new SqlClient(conn);
         SqlConnection dbconn = new SqlConnection(conn);
@@ -40,10 +40,10 @@ public class Database : MonoBehaviour
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
 
-        using (SqlCommand command = new SqlCommand("INSERT INTO Player (name, lastname) VALUES (@name, @lastname)", dbconn))
+        using (SqlCommand command = new SqlCommand("INSERT INTO Player (firstName, lastName) VALUES (@firstName, @lastName)", dbconn))
         {
-            command.Parameters.AddWithValue("@name", firstname.text);
-            command.Parameters.AddWithValue("@lastname", lastname.text);
+            command.Parameters.AddWithValue("@firstName", firstname.text);
+            command.Parameters.AddWithValue("@lastName", lastname.text);
             command.ExecuteNonQuery();
             Debug.Log("Player " + firstname.text + " " + lastname.text + " added to database!");
         }
