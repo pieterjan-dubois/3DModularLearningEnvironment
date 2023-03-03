@@ -118,9 +118,9 @@ public class EditorDatabase : MonoBehaviour
                     }
                     else
                     {
-                        using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorLevel, level) VALUES (@floorLevel, @level)", dbconn))
+                        using (SqlCommand command = new SqlCommand("INSERT INTO Floor (floorNumber, level) VALUES (@floorNumber, @level)", dbconn))
                         {
-                            command.Parameters.AddWithValue("@floorLevel", floor.floorNumber);
+                            command.Parameters.AddWithValue("@floorNumber", floor.floorNumber);
                             command.Parameters.AddWithValue("@level", name);
                             command.ExecuteNonQuery();
                         }
