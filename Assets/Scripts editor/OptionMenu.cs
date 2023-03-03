@@ -14,8 +14,9 @@ public class OptionMenu : MonoBehaviour
     {
         Debug.Log("Max time: " + maxTime.text);
         Debug.Log("Min time: " + minTime.text);
-        //GetComponent<EditorDatabase>().addTimers(int.Parse(maxTime.text), int.Parse(minTime.text));
-        string t = GameObject.Find("LevelDropdown").GetComponent<DropdownHandler>().value;
-        Debug.Log("Selected: " + t);
+        string level = GameObject.Find("LevelDropdown").GetComponent<DropdownHandler>().value;
+        Debug.Log("Selected: " + level);
+
+        GetComponent<EditorDatabase>().addTimers(int.Parse(maxTime.text), int.Parse(minTime.text), level);
     } 
 }

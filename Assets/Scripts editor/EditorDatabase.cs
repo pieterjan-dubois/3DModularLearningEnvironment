@@ -15,7 +15,6 @@ public class EditorDatabase : MonoBehaviour
         Debug.Log("Connecting to database...");
         conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=3D_Modular_Gaming_Tool;";
 
-        //SqlClient dbconn = new SqlClient(conn);
         SqlConnection dbconn = new SqlConnection(conn);
 
         try
@@ -300,20 +299,25 @@ public class EditorDatabase : MonoBehaviour
         return levels;
     }
 
-    public void addTimers(int maxTime, int minTime)
+    public void addTimers(int maximumTime, int minimumTime, string levelName)
     {
         Debug.Log("Adding time to database...");
-        Debug.Log("Max time: " + maxTime + "Min time: " + minTime);
+        Debug.Log("Max time: " + maximumTime + ", Min time: " + minimumTime + ", Level: " + levelName);
+
+        conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=3D_Modular_Gaming_Tool;";
 
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
 
-        using (SqlCommand command = new SqlCommand("UPDATE level SET TimeLimit = @maxTime, MinTime = @minTime", dbconn))
+        using (SqlCommand command = new SqlCommand("UPDATE level SET maximumTime = @maximumTime, minimumTime = @minimumTime WHERE levelName = @levelName", dbconn))
         {
-            command.Parameters.AddWithValue("@maxTime", maxTime);
-            command.Parameters.AddWithValue("@minTime", minTime);
+            command.Parameters.AddWithValue("@maximumTime", maximumTime);
+            command.Parameters.AddWithValue("@minimumTime", minimumTime);
+            command.Parameters.AddWithValue("@levelName", levelName);
             command.ExecuteNonQuery();
         }
+
+        dbconn.Close();
     }
 
 }
