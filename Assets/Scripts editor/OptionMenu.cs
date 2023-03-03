@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.IO;
 
 public class OptionMenu : MonoBehaviour
 {
     public InputField maxTime;
     public InputField minTime;
+
+    private Toggle setActive;
+
+    void Start()
+    {
+        setActive = GameObject.Find("MakeActiveToggle").GetComponent<Toggle>();
+        setActive.onValueChanged.AddListener(delegate { SetActiveLevel(); });
+    }
 
     public void addTimer()
     {
@@ -18,5 +25,21 @@ public class OptionMenu : MonoBehaviour
         Debug.Log("Selected: " + level);
 
         GetComponent<EditorDatabase>().addTimers(int.Parse(maxTime.text), int.Parse(minTime.text), level);
-    } 
+    }
+
+    public void SetActiveLevel()
+    {
+        if (setActive.isOn)
+        {
+            string level = GameObject.Find("LevelDropdown").GetComponent<DropdownHandler>().value;
+            Debug.Log("Selected: " + level);
+            PlayerPrefs.SetString("ActiveLevel", level);
+        }
+        else if (!setActive.isOn)
+        {
+            PlayerPrefs.SetString("ActiveLevel", "");
+        }
+
+    }
+
 }

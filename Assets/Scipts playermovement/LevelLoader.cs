@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class LevelLoader : MonoBehaviour
 {
     private Button loadLevel;
-    private string activeLevel = "House";
+    private string activeLevel;
 
     public GameObject[] placeableObjectPrefabs;
 
@@ -15,7 +15,7 @@ public class LevelLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        activeLevel = PlayerPrefs.GetString("ActiveLevel");
     }
 
     // Update is called once per frame

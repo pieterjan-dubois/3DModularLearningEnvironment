@@ -280,6 +280,8 @@ public class EditorDatabase : MonoBehaviour
     {
         List<string> levels = new List<string>();
 
+        conn = @"Data Source=127.0.0.1; user id=SA; password=Password1234; Initial Catalog=3D_Modular_Gaming_Tool;";
+
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
 
