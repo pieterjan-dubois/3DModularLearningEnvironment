@@ -7,17 +7,17 @@ using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
-    public float maxTimeAllowed; // maximum time allowed to complete the maze (in seconds)
-    public float minTimeRequired; // minimum time required to complete the maze (in seconds)
-    public float timeTaken; // time taken by the player to complete the maze (in seconds)
-    public float scorePercent; // score as a percentage (0-100%)
+    public float maxTimeAllowed; 
+    public float minTimeRequired; 
+    public float timeTaken; 
+    public float scorePercent; 
 
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI scoreText;
     public Button tryAgainBtn;
     
-    private bool gameFinished = false; // flag to indicate if the game has finished
+    private bool gameFinished = false; 
 
     void Start()
     {
@@ -63,7 +63,6 @@ public class CountdownTimer : MonoBehaviour
     {
         gameOverText.enabled = true;
         tryAgainBtn.gameObject.SetActive(true);  
-        // Implement code to end the game here (e.g., show a game over screen)
         Debug.Log("Game Over. Score: " + scorePercent + "%");
     }
 
@@ -77,5 +76,11 @@ public class CountdownTimer : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
         Debug.Log("Load Main Menu");
+    }
+
+    public void setTimers(int maxTime, int minTime)
+    {
+        maxTimeAllowed = maxTime;
+        minTimeRequired = minTime;
     }
 }

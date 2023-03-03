@@ -172,8 +172,21 @@ public class EditorDatabase : MonoBehaviour
             {
                 if (reader.HasRows)
                 {
+                    reader.Read();
+
+                    int maxTime = reader.GetInt32(reader.GetOrdinal("maximumTime"));
+                    int minTime = reader.GetInt32(reader.GetOrdinal("minimumTime"));
+                    Debug.Log("Max time: " + maxTime + " Min time: " + minTime);
 
                     reader.Close();
+
+                    // Call AddTimers function here using the maxTime and minTime values
+                    CountdownTimer countdown = GameObject.FindObjectOfType<CountdownTimer>();
+                    if (countdown != null)
+                    {
+                        countdown.setTimers(maxTime, minTime);
+                        Debug.Log("Timers set");
+                    }
 
                     // Load objects
                     using (SqlCommand objCommand = new SqlCommand("SELECT * FROM Object WHERE level = @levelname", dbconn))
@@ -211,7 +224,6 @@ public class EditorDatabase : MonoBehaviour
                             }
                         }
                     }
-
                     Debug.Log("Level " + name + " loaded from database.");
                 }
                 else
