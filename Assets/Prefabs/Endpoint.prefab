@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3196076478312197812}
   - component: {fileID: 2218399649596532168}
   m_Layer: 0
-  m_Name: Spawnpoint
-  m_TagString: Spawnpoint
+  m_Name: Endpoint
+  m_TagString: Endpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9c8f760fe8c03f64596801cf2c4c2ea8, type: 2}
+  - {fileID: 2100000, guid: 7d76d16939343364093c231b347247a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

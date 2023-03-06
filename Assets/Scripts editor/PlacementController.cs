@@ -254,6 +254,14 @@ public class PlacementController : MonoBehaviour
                     }
                 }
 
+                if (currentPlaceableObject.tag == "Endpoint")
+                {
+                    if (GameObject.FindGameObjectsWithTag("Endpoint").Length > 1)
+                    {
+                        return;
+                    }
+                }
+
 
                 GameObject newObj = Instantiate(currentPlaceableObject);
                 newObj.GetComponent<MeshRenderer>().material = objectMaterial;
@@ -434,7 +442,7 @@ public class PlacementController : MonoBehaviour
             heightForText = 0;
 
         }
-        else if (currentPlaceableObject.tag == "Spawnpoint")
+        else if (currentPlaceableObject.tag == "Spawnpoint" || currentPlaceableObject.tag == "Endpoint")
         {
             height = 0.5f;
             initialHeight = 0.5f;
@@ -477,7 +485,7 @@ public class PlacementController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "Doors" )
+            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.tag == "Endpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "Doors" )
             {
 
                 if (hit.transform.gameObject.transform.parent != null)
@@ -512,7 +520,7 @@ public class PlacementController : MonoBehaviour
                     heightForText = selectedObject.transform.position.y - 0.25f;
 
                 }
-                if (selectedObject.tag == "Spawnpoint")
+                if (selectedObject.tag == "Spawnpoint" || currentPlaceableObject.tag == "Endpoint")
                 {
                     height = selectedObject.transform.position.y;
                     initialHeight = 0.5f;
