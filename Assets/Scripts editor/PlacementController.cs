@@ -279,6 +279,8 @@ public class PlacementController : MonoBehaviour
                 newObjData.data.rotation = newObj.transform.rotation;
                 newObjData.data.scale = newObj.transform.localScale;
                 newObjData.data.tag = newObj.tag;
+                
+                Debug.Log(newObjData.data.tag);
 
                 level.createdObjects.Add(newObjData.data);
 

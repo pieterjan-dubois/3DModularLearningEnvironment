@@ -36,6 +36,11 @@ public class LevelController : MonoBehaviour
             StartCoroutine(UI.GetComponent<UIController>().CloseMessagePanel());
         }
 
+        foreach (CreatedObject.Data data in level.createdObjects)
+        {
+            Debug.Log(data.tag);
+        }
+
         Debug.Log("Saving.");
 
 
