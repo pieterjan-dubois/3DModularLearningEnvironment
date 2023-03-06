@@ -1,4 +1,7 @@
 CREATE DATABASE [3D_Modular_Gaming_Tool];
+GO
+USE [3D_Modular_Gaming_Tool];
+GO
 
 CREATE TABLE [dbo].[Player] (
     [playerID]  INT          IDENTITY (1, 1) NOT NULL,
