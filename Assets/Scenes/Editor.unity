@@ -2733,6 +2733,8 @@ MonoBehaviour:
   - {fileID: 308483552022518720, guid: a051b923a8916e34c8e0f19973df7faa, type: 3}
   - {fileID: 3881804174959848972, guid: f5437caf8b32d49429fe5a0cab253e59, type: 3}
   - {fileID: 3881804174959848972, guid: 03bdab2d72b30c54d8d77f90ab920348, type: 3}
+  - {fileID: 8130921515360841392, guid: 39868262e399a4c48bf3739708613d2b, type: 3}
+  - {fileID: 8130921515360841392, guid: edf47f8319abbee4099ed7546f426346, type: 3}
   placing: {fileID: 2100000, guid: 5a51c9f7f9a219c4a86298815f6f65e5, type: 2}
   selectedMaterial: {fileID: 2100000, guid: ea599227dded00f40b7f89c0f719bf39, type: 2}
   gridSize: 0.5
