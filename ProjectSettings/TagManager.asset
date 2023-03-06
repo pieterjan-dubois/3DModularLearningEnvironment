@@ -7,6 +7,9 @@ TagManager:
   - Wall
   - Floor
   - WallPart
+  - Doors
+  - CorrectDoor
+  - WrongDoor
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8126221914772496213}
   - component: {fileID: 8088301706529518669}
+  - component: {fileID: 8160725675885458173}
   m_Layer: 0
   m_Name: DoorZone
   m_TagString: Untagged
@@ -45,6 +46,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.4637756, y: 1, z: 6}
   m_Center: {x: -0.67524433, y: 0.5, z: 0}
+--- !u!114 &8160725675885458173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8130067943752055159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150cf7940ab0e6c4bbaf184a87998a4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  txtToDisplay: {fileID: 0}
 --- !u!1 &8130921515360841380
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,8 +323,8 @@ GameObject:
   - component: {fileID: 8130921515342407288}
   - component: {fileID: 8130921515360841393}
   m_Layer: 0
-  m_Name: Apartementdoor_editor
-  m_TagString: Untagged
+  m_Name: WrongGameDoor
+  m_TagString: WrongGameDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
