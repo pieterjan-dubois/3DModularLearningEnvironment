@@ -485,7 +485,7 @@ public class PlacementController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.tag == "Endpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "Wrongdoor" )
+            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.tag == "Endpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "Wrongdoor" || hit.transform.gameObject.transform.parent.gameObject.tag == "Correctdoor")
             {
 
                 if (hit.transform.gameObject.transform.parent != null)
