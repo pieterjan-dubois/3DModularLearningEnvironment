@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
-    public float maxTimeAllowed; 
-    public float minTimeRequired; 
-    public float timeTaken; 
-    public float scorePercent; 
+    private float maxTimeAllowed; 
+    private float minTimeRequired; 
+    private float timeTaken; 
+    private float scorePercent; 
 
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI gameOverText;
@@ -28,7 +28,7 @@ public class CountdownTimer : MonoBehaviour
 
     void Update()
     {
-        if (!gameFinished)
+        if (!gameFinished && maxTimeAllowed > 0)
         {
             timeTaken += Time.deltaTime; // update the time taken while the game is running
 
