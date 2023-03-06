@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class DoorController : MonoBehaviour
@@ -125,3 +125,4 @@ public class DoorController : MonoBehaviour
         }
     }
 }
+
