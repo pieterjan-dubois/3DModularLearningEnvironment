@@ -258,7 +258,7 @@ public class PlacementController : MonoBehaviour
                 GameObject newObj = Instantiate(currentPlaceableObject);
                 newObj.GetComponent<MeshRenderer>().material = objectMaterial;
 
-                if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "Doors")
+                if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "CorrectDoor" || currentPlaceableObject.tag == "WrongDoor")
                 {
                     foreach (Transform child in newObj.transform)
                     {
@@ -385,7 +385,7 @@ public class PlacementController : MonoBehaviour
         {
             selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
 
-            if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "Doors")
+            if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "CorrectDoor" || currentPlaceableObject.tag == "WrongDoor" )
             {
                 foreach (Transform child in currentPlaceableObject.transform)
                 {
@@ -421,7 +421,7 @@ public class PlacementController : MonoBehaviour
             heightForText = 0;
 
         }
-        else if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "Doors")
+        else if (currentPlaceableObject.tag == "Stairs" || currentPlaceableObject.tag == "WrongDoor" || currentPlaceableObject.tag == "CorrectDoor")
         {
             foreach (Transform child in currentPlaceableObject.transform)
             {
@@ -463,7 +463,7 @@ public class PlacementController : MonoBehaviour
         if (selectedObject != null)
         {
             selectedObject.GetComponent<MeshRenderer>().material = objectMaterial;
-            if (selectedObject.tag == "Stairs" ||selectedObject.tag == "Doors")
+            if (selectedObject.tag == "Stairs" ||selectedObject.tag == "WrongDoor" ||selectedObject.tag == "CorrectDoor")
             {
                 foreach (Transform child in selectedObject.transform)
                 {
@@ -477,16 +477,17 @@ public class PlacementController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "Doors" )
+            if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "WallPart" || hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Spawnpoint" || hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "Wrongdoor" )
             {
 
                 if (hit.transform.gameObject.transform.parent != null)
                 {
 
-                    if (hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "Doors")
+                    if (hit.transform.gameObject.transform.parent.gameObject.tag == "Stairs" || hit.transform.gameObject.transform.parent.gameObject.tag == "WrongDoor"  || hit.transform.gameObject.transform.parent.gameObject.tag == "CorrectDoor")
                     {
                         selectedObject = hit.transform.gameObject.transform.parent.gameObject;
                     }
+
 
                 }
                 else
@@ -518,7 +519,7 @@ public class PlacementController : MonoBehaviour
                     initialHeight = 0.5f;
                     heightForText = selectedObject.transform.position.y - 0.5f;
                 }
-                if (selectedObject.tag == "Stairs" ||selectedObject.tag == "Doors")
+                if (selectedObject.tag == "Stairs" ||selectedObject.tag == "WrongDoor" ||selectedObject.tag == "CorrectDoor" )
                 {
                     foreach (Transform child in selectedObject.transform)
                     {
