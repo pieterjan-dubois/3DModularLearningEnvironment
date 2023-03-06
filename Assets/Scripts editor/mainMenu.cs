@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 public class mainMenu : MonoBehaviour
 {
    public void PlayGame(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex  + 1);
-   }
+        SceneManager.LoadScene("Game");
+    }
 
    public void PlayWorldBuilder(){
-      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
-   }
+        SceneManager.LoadScene("Editor");
+    }
 
    public void QuitGame(){
       Debug.Log("quit");

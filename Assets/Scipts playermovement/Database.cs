@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Data;
 using System.Data.SqlClient;
+using UnityEngine.SceneManagement;
 
 public class Database : MonoBehaviour
 {
@@ -40,6 +41,26 @@ public class Database : MonoBehaviour
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
 
+        // Check if player already exists
+        using (SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM Player WHERE firstName = @firstName AND lastName = @lastName", dbconn))
+        {
+            command.Parameters.AddWithValue("@firstName", firstname.text);
+            command.Parameters.AddWithValue("@lastName", lastname.text);
+
+            int count = (int)command.ExecuteScalar();
+            if (count > 0)
+            {
+                Debug.Log("Player " + firstname.text + " " + lastname.text + " already exists in database!");
+                
+                SceneManager.LoadScene("Menu");
+                PlayerPrefs.SetString("PlayerFirstName", firstname.text);
+                PlayerPrefs.SetString("PlayerLastName", lastname.text);
+
+                return;
+            }
+        }
+
+        // Add player to database
         using (SqlCommand command = new SqlCommand("INSERT INTO Player (firstName, lastName) VALUES (@firstName, @lastName)", dbconn))
         {
             command.Parameters.AddWithValue("@firstName", firstname.text);
@@ -49,5 +70,10 @@ public class Database : MonoBehaviour
         }
 
         dbconn.Close();
+
+        SceneManager.LoadScene("Menu");
+        PlayerPrefs.SetString("PlayerFirstName", firstname.text);
+        PlayerPrefs.SetString("PlayerLastName", lastname.text);
     }
+
 }

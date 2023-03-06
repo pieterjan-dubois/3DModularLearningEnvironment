@@ -341,4 +341,54 @@ public class EditorDatabase : MonoBehaviour
         dbconn.Close();
     }
 
+    public void SetScore(float score)
+    {
+        string firstName = PlayerPrefs.GetString("PlayerFirstName");
+        string lastName = PlayerPrefs.GetString("PlayerLastName");
+        int playerId = -1;
+
+        // Look up the player ID based on the first and last name
+        using (SqlConnection dbconn = new SqlConnection(conn))
+        {
+            dbconn.Open();
+
+            using (SqlCommand command = new SqlCommand("SELECT playerID FROM Player WHERE firstName = @firstName AND lastName = @lastName", dbconn))
+            {
+                command.Parameters.AddWithValue("@firstName", firstName);
+                command.Parameters.AddWithValue("@lastName", lastName);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        playerId = reader.GetInt32(0);
+                    }
+                }
+            }
+
+            dbconn.Close();
+        }
+
+        if (playerId != -1)
+        {
+            string levelName = PlayerPrefs.GetString("ActiveLevel");
+
+            using (SqlConnection dbconn = new SqlConnection(conn))
+            {
+                dbconn.Open();
+
+                using (SqlCommand command = new SqlCommand("INSERT INTO Score (score, level, playerId) VALUES (@score, @level, @playerId)", dbconn))
+                {
+                    command.Parameters.AddWithValue("@score", score);
+                    command.Parameters.AddWithValue("@level", levelName);
+                    command.Parameters.AddWithValue("@playerId", playerId);
+                    command.ExecuteNonQuery();
+                }
+
+                dbconn.Close();
+            }
+        }
+    }
+
+
 }

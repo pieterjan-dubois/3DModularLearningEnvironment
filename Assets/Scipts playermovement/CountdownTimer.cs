@@ -7,17 +7,18 @@ using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
-    private float maxTimeAllowed; 
-    private float minTimeRequired; 
-    private float timeTaken; 
-    private float scorePercent; 
+    private float maxTimeAllowed;
+    private float minTimeRequired;
+    private float timeTaken;
+    private float scorePercent;
 
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI scoreText;
     public Button tryAgainBtn;
-    
-    private bool gameFinished = false; 
+
+    public bool gameFinished = false;
+    private bool scoreSaved = false;
 
     void Start()
     {
@@ -36,20 +37,24 @@ public class CountdownTimer : MonoBehaviour
             {
                 gameFinished = true;
                 timeTaken = maxTimeAllowed; // limit the time taken to the max time allowed
-                CalculateScore(); // calculate the final score
-                EndGame(); // end the game
             }
         }
 
         countdownText.text = "Time: " + timeTaken.ToString("F2"); // update the countdown text
-        if(timeTaken >= minTimeRequired)
+        if (timeTaken >= minTimeRequired)
         {
             CalculateScore(); // calculate the score
         }
-        else if(timeTaken < minTimeRequired)
+        else if (timeTaken < minTimeRequired)
         {
             scoreText.text = "Score: 100%"; // update the score text
-        } 
+        }
+
+        if (gameFinished && !scoreSaved)
+        {
+            EndGame();
+        }
+
     }
 
     private void CalculateScore()
@@ -61,16 +66,23 @@ public class CountdownTimer : MonoBehaviour
 
     private void EndGame()
     {
+        float score = 100f;
         gameOverText.enabled = true;
-        tryAgainBtn.gameObject.SetActive(true);  
+        tryAgainBtn.gameObject.SetActive(true);
         Debug.Log("Game Over. Score: " + scorePercent + "%");
+        if (timeTaken >= minTimeRequired)
+        {
+            score = scorePercent;
+        }
+        GameObject.Find("LoadCanvas").GetComponent<EditorDatabase>().SetScore(score);
+        scoreSaved = true;
     }
 
     public void resetTheGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("Reset the game");
-    }    
+    }
 
     public void LoadMainMenu()
     {
@@ -83,4 +95,5 @@ public class CountdownTimer : MonoBehaviour
         maxTimeAllowed = maxTime;
         minTimeRequired = minTime;
     }
+
 }

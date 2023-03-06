@@ -139,4 +139,13 @@ public class PlayerControl : MonoBehaviour
     {
         gameIsPaused = false;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Endpoint")
+        {
+            GameObject.Find("ScoreCanvas").GetComponent<CountdownTimer>().gameFinished = true;
+
+        }
+    }
 }
