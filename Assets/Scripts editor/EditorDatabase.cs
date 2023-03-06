@@ -180,13 +180,18 @@ public class EditorDatabase : MonoBehaviour
 
                     reader.Close();
 
-                    // Call AddTimers function here using the maxTime and minTime values
-                    CountdownTimer countdown = GameObject.Find("ScoreCanvas").GetComponent<CountdownTimer>();
-                    if (countdown != null)
+                    if (GameObject.Find("ScoreCanvas") != null)
                     {
-                        countdown.setTimers(maxTime, minTime);
-                        Debug.Log("Timers set");
+                        // Call AddTimers function here using the maxTime and minTime values
+                        CountdownTimer countdown = GameObject.Find("ScoreCanvas").GetComponent<CountdownTimer>();
+                        if (countdown != null)
+                        {
+                            countdown.setTimers(maxTime, minTime);
+                            Debug.Log("Timers set");
+                        }
                     }
+                    
+                    
 
                     // Load objects
                     using (SqlCommand objCommand = new SqlCommand("SELECT * FROM Object WHERE level = @levelname", dbconn))
@@ -310,6 +315,8 @@ public class EditorDatabase : MonoBehaviour
 
         dbconn.Close();
 
+        Debug.Log("Levels: " + levels.Count);
+        
         return levels;
     }
 

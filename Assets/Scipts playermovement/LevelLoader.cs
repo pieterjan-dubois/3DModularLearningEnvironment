@@ -67,6 +67,11 @@ public class LevelLoader : MonoBehaviour
                         obj.SetActive(false);
                     }
 
+                    if (data.tag == "Endpoint")
+                    {
+                        obj.SetActive(false);
+                    }
+
                 }
             }
             

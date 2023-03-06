@@ -13,10 +13,10 @@ public class DropdownHandler : MonoBehaviour
         var dropdown = transform.GetComponent<Dropdown>();
 
         List<string> test = GetComponent<EditorDatabase>().GetLevels();
-        Debug.Log("Test: " + test[1]);
 
         foreach (string level in test)
         {
+
             dropdown.options.Add(new Dropdown.OptionData() { text = level });
         }
 
