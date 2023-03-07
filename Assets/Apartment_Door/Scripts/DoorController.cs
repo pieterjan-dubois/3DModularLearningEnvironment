@@ -141,8 +141,8 @@ public class DoorController : MonoBehaviour
 
         if (doorState == DoorState.Opened && !playerInZone)
         {
-            GameObject.Find("ScoreCanvas").GetComponent<CountdownTimer>().GameOver();
-            txtToDisplay.SetActive(false);
+            doorAnim.Play("Door_Close");
+            doorState = DoorState.Closed;
         }
     }
 }
