@@ -245,9 +245,7 @@ public class EditorDatabase : MonoBehaviour
 
     private Vector3 StringToVector3(string s)
     {
-        Debug.Log("StringToVector3 input: " + s);
         string[] split = s.Trim(new char[] { '(', ')' }).Split(',');
-        Debug.Log("StringToVector3 split: " + split[0] + " " + split[1] + " " + split[2]);
         return new Vector3(float.Parse(split[0], CultureInfo.InvariantCulture), float.Parse(split[1], CultureInfo.InvariantCulture), float.Parse(split[2], CultureInfo.InvariantCulture));
     }
 
@@ -258,32 +256,6 @@ public class EditorDatabase : MonoBehaviour
         return new Quaternion(float.Parse(split[0], CultureInfo.InvariantCulture), float.Parse(split[1], CultureInfo.InvariantCulture), float.Parse(split[2], CultureInfo.InvariantCulture), float.Parse(split[3], CultureInfo.InvariantCulture));
     }
 
-    public void DeleteLevel(string name)
-    {
-        SqlConnection dbconn = new SqlConnection(conn);
-        dbconn.Open();
-
-        using (SqlCommand command = new SqlCommand("DELETE FROM Object WHERE level = @levelname", dbconn))
-        {
-            command.Parameters.AddWithValue("@levelname", name);
-            command.ExecuteNonQuery();
-        }
-
-        using (SqlCommand command = new SqlCommand("DELETE FROM Floor WHERE level = @levelname", dbconn))
-        {
-            command.Parameters.AddWithValue("@levelname", name);
-            command.ExecuteNonQuery();
-        }
-
-        using (SqlCommand command = new SqlCommand("DELETE FROM Level WHERE levelname = @levelname", dbconn))
-        {
-            command.Parameters.AddWithValue("@levelname", name);
-            command.ExecuteNonQuery();
-        }
-
-        dbconn.Close();
-    }
-
     public void DeleteLevel(string name, SqlConnection dbconn)
     {
         using (SqlCommand command = new SqlCommand("DELETE FROM Level WHERE levelname = @levelname", dbconn))
@@ -291,6 +263,23 @@ public class EditorDatabase : MonoBehaviour
             command.Parameters.AddWithValue("@levelname", name);
             command.ExecuteNonQuery();
         }
+
+        Debug.Log("Level deleted");
+    }
+
+    public void DeleteLevel(string name)
+    {
+        SqlConnection dbconn = new SqlConnection(conn);
+        dbconn.Open();
+
+        using (SqlCommand command = new SqlCommand("DELETE FROM Level WHERE levelname = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
+
+        Debug.Log("Level deleted");
+        dbconn.Close();
     }
 
     public List<string> GetLevels()
