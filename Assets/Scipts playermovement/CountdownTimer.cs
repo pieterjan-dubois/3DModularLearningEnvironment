@@ -80,6 +80,8 @@ public class CountdownTimer : MonoBehaviour
 
     public void GameOver()
     {
+        gameFinished = true;
+        scoreSaved = true;
         gameOverText.enabled = true;
         tryAgainBtn.gameObject.SetActive(true);
         scoreText.text = "Score: 0%";

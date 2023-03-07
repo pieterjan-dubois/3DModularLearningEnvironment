@@ -69,7 +69,7 @@ public class DoorController : MonoBehaviour
     private void Update()
     {
         //To Check if the player is in the zone
-        if (playerInZone)
+        if (doorState == DoorState.Opened)
         {
             if (doorState == DoorState.Opened)
             {
@@ -125,6 +125,7 @@ public class DoorController : MonoBehaviour
                 doorState = DoorState.Closed;
             }
 
+
             /* if (doorState == DoorState.Jammed && !gotKey)
             {
                 if (doorAnim.GetClip("Door_Jam") != null)
@@ -136,6 +137,12 @@ public class DoorController : MonoBehaviour
                 doorAnim.Play("Door_Open");
                 doorState = DoorState.Opened;
             } */
+        }
+
+        if (doorState == DoorState.Opened && !playerInZone)
+        {
+            GameObject.Find("ScoreCanvas").GetComponent<CountdownTimer>().GameOver();
+            txtToDisplay.SetActive(false);
         }
     }
 }
