@@ -414,7 +414,7 @@ public class PlacementController : MonoBehaviour
         placing.SetColor("_Color", new Color(0.3f, 0.8f, 1f, 0.5f));
 
         selected.SetActive(true);
-        selected.transform.position = selectedPosition + new Vector3(100 * i, 0, 0);
+        selected.transform.position = selectedPosition + new Vector3(80 * i, 0, 0);
 
         if (currentPlaceableObject.tag == "Floor")
         {
