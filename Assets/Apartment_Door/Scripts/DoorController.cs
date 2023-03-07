@@ -12,7 +12,9 @@ public class DoorController : MonoBehaviour
     private bool doorOpened;                    //Check if door is currently opened or not
 
     private Animation doorAnim;
-    private BoxCollider doorCollider;           //To enable the player to go through the door if door is opened else block him
+    private BoxCollider doorCollider; //To enable the player to go through the door if door is opened else block him
+
+    private string doorType;
 
     enum DoorState
     {
@@ -41,6 +43,8 @@ public class DoorController : MonoBehaviour
 
         doorAnim = transform.parent.gameObject.GetComponent<Animation>();
         doorCollider = transform.parent.gameObject.GetComponent<BoxCollider>();
+
+        doorType = gameObject.transform.parent.gameObject.tag;
 
         //If Key is needed and the KeyGameObject is not assigned, stop playing and throw error
         /* if (keyNeeded && keyGameObject == null)
@@ -86,6 +90,12 @@ public class DoorController : MonoBehaviour
 
         if ( Input.GetKeyDown(KeyCode.E) && playerInZone)
         {
+            if (doorType == "WrongDoor")
+            {
+                GameObject.Find("ScoreCanvas").GetComponent<CountdownTimer>().GameOver();
+                txtToDisplay.SetActive(false);
+            }
+            
             doorOpened = !doorOpened;           //The toggle function of door to open/close
 
             if (doorState == DoorState.Closed && !doorAnim.isPlaying)

@@ -78,6 +78,13 @@ public class CountdownTimer : MonoBehaviour
         scoreSaved = true;
     }
 
+    public void GameOver()
+    {
+        gameOverText.enabled = true;
+        tryAgainBtn.gameObject.SetActive(true);
+        scoreText.text = "Score: 0%";
+    }
+
     public void resetTheGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
