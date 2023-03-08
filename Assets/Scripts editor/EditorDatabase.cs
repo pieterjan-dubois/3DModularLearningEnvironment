@@ -258,6 +258,18 @@ public class EditorDatabase : MonoBehaviour
 
     public void DeleteLevel(string name, SqlConnection dbconn)
     {
+        using (SqlCommand command = new SqlCommand("DELETE FROM Object WHERE level = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
+
+        using (SqlCommand command = new SqlCommand("DELETE FROM Floor WHERE level = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
+
         using (SqlCommand command = new SqlCommand("DELETE FROM Level WHERE levelname = @levelname", dbconn))
         {
             command.Parameters.AddWithValue("@levelname", name);
@@ -271,6 +283,18 @@ public class EditorDatabase : MonoBehaviour
     {
         SqlConnection dbconn = new SqlConnection(conn);
         dbconn.Open();
+
+        using (SqlCommand command = new SqlCommand("DELETE FROM Object WHERE level = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
+
+        using (SqlCommand command = new SqlCommand("DELETE FROM Floor WHERE level = @levelname", dbconn))
+        {
+            command.Parameters.AddWithValue("@levelname", name);
+            command.ExecuteNonQuery();
+        }
 
         using (SqlCommand command = new SqlCommand("DELETE FROM Level WHERE levelname = @levelname", dbconn))
         {
