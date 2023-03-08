@@ -85,6 +85,7 @@ public class CountdownTimer : MonoBehaviour
         gameOverText.enabled = true;
         tryAgainBtn.gameObject.SetActive(true);
         scoreText.text = "Score: 0%";
+        GameObject.Find("LoadCanvas").GetComponent<EditorDatabase>().SetScore(0f);
     }
 
     public void resetTheGame()

@@ -241,7 +241,7 @@ public class FloorplanController : MonoBehaviour
             floorplans.Add(currentFloor, currentFloorPlane);
 
             uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
-            uploadButton.onClick.AddListener(Upload);
+            uploadButton.onClick.AddListener(OpenFileExplorer);
 
             uploadButtons.Add(uploadButton);
 
