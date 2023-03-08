@@ -172,7 +172,6 @@ public class UIController : MonoBehaviour
         mouse.GetComponent<LevelController>().SaveLevel(levelName);
 
         CloseSaveMenu();
-        AssetDatabase.Refresh();
         
         messagePanel.SetActive(true);
         message.text = "Level " + levelName + " succesvol opgeslagen!";
@@ -250,7 +249,6 @@ public class UIController : MonoBehaviour
         GameObject levelButton = GameObject.Find(levelName + "Button");
         Destroy(levelButton);
         CloseLoadMenu();
-        AssetDatabase.Refresh();
         OpenLoadMenu();
 
         mouse.GetComponent<EditorDatabase>().DeleteLevel(levelName);

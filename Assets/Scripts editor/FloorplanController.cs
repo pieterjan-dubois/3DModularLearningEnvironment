@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 using System.IO;
+using SimpleFileBrowser;
 
 public class FloorplanController : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class FloorplanController : MonoBehaviour
     {
         floors = GameObject.Find("Floors");
         uploadButton = GameObject.Find("UploadButton").GetComponent<Button>();
-        uploadButton.onClick.AddListener(Upload);
+        uploadButton.onClick.AddListener(OpenFileExplorer);
         uploadButtons.Add(uploadButton);
         currentFloor = 0;
         ground = GameObject.Find("Ground");
@@ -41,13 +42,17 @@ public class FloorplanController : MonoBehaviour
         floorData.data.floorNumber = currentFloor;
 
         GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors.Add(floorData.data);
-        Debug.Log(GameObject.Find("Mouse").GetComponent<PlacementController>().level.floors[0].floorNumber);
 
         floorplans = new Dictionary<int, GameObject>();
         floorplans.Add(0, currentFloorPlane);
 
 
         UI = GameObject.Find("UI");
+
+        FileBrowser.SetFilters(true, new FileBrowser.Filter("Images", ".jpg", ".png"));
+        FileBrowser.AddQuickLink("Users", "C:\\Users", null);
+
+
 
 
     }
@@ -111,8 +116,11 @@ public class FloorplanController : MonoBehaviour
 
     void Upload()
     {
-        // Open file explorer to select image file
-        imagePath = UnityEditor.EditorUtility.OpenFilePanel("Select Image", "", "png,jpg,jpeg");
+
+        /*// Open file explorer to select image file
+        imagePath = UnityEditor.EditorUtility.OpenFilePanel("Select Image", "", "png,jpg,jpeg");*/
+
+        Debug.Log("Image path: " + imagePath);
 
         if (imagePath != "")
         {
@@ -293,6 +301,41 @@ public class FloorplanController : MonoBehaviour
         currentFloor = 0;
         uploadButton = uploadButtons[0];
         uploadButton.gameObject.SetActive(true);
+    }
+
+    void OpenFileExplorer()
+    {
+        StartCoroutine(ShowLoadDialogCoroutine());
+    }
+    
+    IEnumerator ShowLoadDialogCoroutine()
+    {
+        // Show a load file dialog and wait for a response from user
+        // Load file/folder: both, Allow multiple selection: true
+        // Initial path: default (Documents), Initial filename: empty
+        // Title: "Load File", Submit button text: "Load"
+        yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.FilesAndFolders, false, null, null, "Load Files and Folders", "Load");
+
+        // Dialog is closed
+        // Print whether the user has selected some files/folders or cancelled the operation (FileBrowser.Success)
+        Debug.Log(FileBrowser.Success);
+
+        if (FileBrowser.Success)
+        {
+            /*// Print paths of the selected files (FileBrowser.Result) (null, if FileBrowser.Success is false)
+            for (int i = 0; i < FileBrowser.Result.Length; i++)
+                Debug.Log(FileBrowser.Result[i]);
+
+            // Read the bytes of the first file via FileBrowserHelpers
+            // Contrary to File.ReadAllBytes, this function works on Android 10+, as well
+            byte[] bytes = FileBrowserHelpers.ReadBytesFromFile(FileBrowser.Result[0]);
+
+            // Or, copy the first file to persistentDataPath
+            string destinationPath = Path.Combine(Application.persistentDataPath, FileBrowserHelpers.GetFilename(FileBrowser.Result[0]));
+            FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);*/
+            imagePath = FileBrowser.Result[0];
+            Upload();
+        }
     }
 
 
