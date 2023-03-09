@@ -31,9 +31,16 @@ public class PlacementController : MonoBehaviour
     private Button widthMinusButton;
     private Button lengthPlusButton;
     private Button lengthMinusButton;
+
     private Button wall;
     private Button floor;
     private Button wallPart;
+    private Button stairs;
+    private Button checkpoint;
+    private Button endpoint;
+    private Button wrongDoor;
+    private Button correctDoor;
+
     private Button heightButton;
     private Button deleteButton;
 
@@ -75,6 +82,11 @@ public class PlacementController : MonoBehaviour
         wall = GameObject.Find("Wall").GetComponent<Button>();
         floor = GameObject.Find("Floor").GetComponent<Button>();
         wallPart = GameObject.Find("WallPart").GetComponent<Button>();
+        stairs = GameObject.Find("Stairs").GetComponent<Button>();
+        checkpoint = GameObject.Find("Checkpoint").GetComponent<Button>();
+        endpoint = GameObject.Find("Endpoint").GetComponent<Button>();
+        wrongDoor = GameObject.Find("WrongDoor").GetComponent<Button>();
+        correctDoor = GameObject.Find("CorrectDoor").GetComponent<Button>();
 
 
         heightButton = GameObject.Find("HeightButton").GetComponent<Button>();
@@ -93,6 +105,12 @@ public class PlacementController : MonoBehaviour
         wall.onClick.AddListener(() => { ChangeObject(0); });
         floor.onClick.AddListener(() => { ChangeObject(1); });
         wallPart.onClick.AddListener(() => { ChangeObject(2); });
+        stairs.onClick.AddListener(() => { ChangeObject(3); });
+        checkpoint.onClick.AddListener(() => { ChangeObject(4); });
+        endpoint.onClick.AddListener(() => { ChangeObject(5); });
+        wrongDoor.onClick.AddListener(() => { ChangeObject(6); });
+        correctDoor.onClick.AddListener(() => { ChangeObject(7); });
+
         deleteButton.onClick.AddListener(() => { DestroyObject(selectedObject); });
 
     }
@@ -160,32 +178,32 @@ public class PlacementController : MonoBehaviour
 
             }
 
-            if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            if (Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.P))
             {
                 IncreaseHeight();
             }
 
-            if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            if (Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.M))
             {
                 DecreaseHeight();
             }
 
-            if (Input.GetKeyDown(KeyCode.Keypad4) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad4)))
+            if (Input.GetKeyDown(KeyCode.Keypad4) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad4)) || Input.GetKeyDown(KeyCode.I) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.I)))
             {
                 DecreaseWidth();
             }
 
-            if (Input.GetKeyDown(KeyCode.Keypad6) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad6)))
+            if (Input.GetKeyDown(KeyCode.Keypad6) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad6)) || Input.GetKeyDown(KeyCode.K) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.K)))
             {
                 IncreaseWidth();
             }
 
-            if (Input.GetKeyDown(KeyCode.Keypad2) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad2)))
+            if (Input.GetKeyDown(KeyCode.Keypad2) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad2)) || Input.GetKeyDown(KeyCode.O) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.O)))
             {
                 DecreaseLength();
             }
 
-            if (Input.GetKeyDown(KeyCode.Keypad8) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad8)))
+            if (Input.GetKeyDown(KeyCode.Keypad8) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Keypad8)) || Input.GetKeyDown(KeyCode.L) || (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.L)))
             {
                 IncreaseLength();
             }

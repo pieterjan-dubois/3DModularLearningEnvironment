@@ -272,7 +272,7 @@ public class UIController : MonoBehaviour
             }
             else if (i < 12)
             {
-                levelButton.transform.position = new Vector3(levelButton.transform.position.x - 10, levelButton.transform.position.y + 60, levelButton.transform.position.z);
+                levelButton.transform.position = new Vector3(levelButton.transform.position.x +10, levelButton.transform.position.y + 60, levelButton.transform.position.z);
                 levelButton.transform.position = new Vector3(levelButton.transform.position.x, levelButton.transform.position.y - ((i - 6) * 30), levelButton.transform.position.z);
 
             }
