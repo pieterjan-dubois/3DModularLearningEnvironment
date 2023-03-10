@@ -165,6 +165,7 @@ public class PlacementController : MonoBehaviour
             if (Input.GetKey(KeyCode.Delete))
             {
                 DestroyObject(selectedObject);
+                
             }
 
             if (Input.GetMouseButtonDown(1))
@@ -324,6 +325,7 @@ public class PlacementController : MonoBehaviour
 
     void DestroyObject(GameObject selectedObject)
     {
+        level.createdObjects.Remove(selectedObject.GetComponent<CreatedObject>().data);
         Destroy(selectedObject);
         selectedObject = null;
 

@@ -310,6 +310,7 @@ public class FloorplanController : MonoBehaviour
     
     IEnumerator ShowLoadDialogCoroutine()
     {
+
         // Show a load file dialog and wait for a response from user
         // Load file/folder: both, Allow multiple selection: true
         // Initial path: default (Documents), Initial filename: empty

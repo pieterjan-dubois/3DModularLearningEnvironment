@@ -25,6 +25,7 @@ public class OptionMenu : MonoBehaviour
         Debug.Log("Selected: " + level);
 
         GetComponent<EditorDatabase>().addTimers(int.Parse(maxTime.text), int.Parse(minTime.text), level);
+        SceneManager.LoadScene("Menu");
     }
 
     public void SetActiveLevel()
